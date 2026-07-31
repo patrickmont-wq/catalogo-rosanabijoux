@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Pesquisa de Satisfação — Rosana Bijoux</title>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MNG78HW0JQ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-MNG78HW0JQ');
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --gold:#B8943F;--gold-light:#D4AE5A;--gold-dark:#9A7A2E;
+  --cream:#FDFAF4;--beige:#F4EFE4;--beige-mid:#E2D9C4;
+  --dark:#1C1811;--mid:#5A5040;--muted:#9A8E7A;
+  --green:#25D366;
+}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{font-family:'DM Sans',sans-serif;background:var(--dark);color:var(--cream);overflow-x:hidden;min-height:100vh;padding-bottom:env(safe-area-inset-bottom,0px);}
+
+/* BG */
+.bg-wrap{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.bg-top{position:absolute;top:-15%;left:50%;transform:translateX(-50%);width:800px;height:500px;background:radial-gradient(ellipse,rgba(184,148,63,0.14) 0%,transparent 65%);}
+.bg-lines{position:absolute;inset:0;background-image:repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(184,148,63,0.025) 60px,rgba(184,148,63,0.025) 61px);}
+
+/* HEADER */
+header{position:sticky;top:0;z-index:100;padding:0 1.5rem;background:rgba(28,24,17,0.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(184,148,63,0.1);}
+.header-inner{max-width:680px;margin:0 auto;height:58px;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none;}
+.logo img{height:26px;width:auto;opacity:0.9;}
+.logo-text{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:400;color:var(--cream);letter-spacing:0.05em;}
+.logo-text span{color:var(--gold-light);}
+.header-tag{font-size:0.6rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);opacity:0.7;}
+
+/* MAIN */
+.main{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:0 1.5rem 4rem;}
+
+/* GIFT BANNER */
+.gift-banner{
+  background:linear-gradient(135deg,rgba(184,148,63,0.15),rgba(212,174,90,0.08));
+  border:1px solid rgba(184,148,63,0.3);
+  border-radius:3px;
+  padding:1.2rem 1.4rem;
+  display:flex;align-items:center;gap:1rem;
+  margin:2rem 0 0;
+  animation:fadeUp 0.5s ease both;
+}
+.gift-icon{font-size:1.8rem;flex-shrink:0;}
+.gift-text p:first-child{font-size:0.72rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold-light);margin-bottom:3px;}
+.gift-text p:last-child{font-size:0.82rem;font-weight:300;color:rgba(253,250,244,0.6);line-height:1.5;}
+
+/* INTRO */
+.intro{padding:2rem 0 1.5rem;animation:fadeUp 0.5s 0.06s ease both;}
+.intro-eyebrow{font-size:0.62rem;font-weight:500;letter-spacing:0.28em;text-transform:uppercase;color:var(--gold);margin-bottom:0.8rem;}
+.intro h1{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,5vw,3rem);font-weight:300;line-height:1.1;color:var(--cream);margin-bottom:0.8rem;}
+.intro h1 em{font-style:italic;color:var(--gold-light);}
+.intro p{font-size:0.85rem;font-weight:300;color:rgba(253,250,244,0.45);line-height:1.8;}
+
+/* PROGRESS */
+.progress-wrap{margin-bottom:2rem;animation:fadeUp 0.5s 0.12s ease both;}
+.progress-bar-bg{height:3px;background:rgba(255,255,255,0.06);border-radius:3px;overflow:hidden;margin-bottom:0.6rem;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold-dark),var(--gold-light));border-radius:3px;transition:width 0.4s ease;width:0%;}
+.progress-info{display:flex;justify-content:space-between;align-items:center;}
+.progress-label{font-size:0.62rem;font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:rgba(253,250,244,0.3);}
+.progress-frac{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:300;color:var(--gold-light);}
+
+/* STEP CARDS */
+.step-card{display:none;animation:fadeUp 0.35s ease both;}
+.step-card.active{display:block;}
+
+.step-q{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:300;color:var(--cream);margin-bottom:0.35rem;line-height:1.2;}
+.step-q em{font-style:italic;color:var(--gold-light);}
+.step-hint{font-size:0.73rem;font-weight:300;color:rgba(253,250,244,0.35);margin-bottom:1.5rem;line-height:1.5;}
+.step-hint .multi-badge{display:inline-block;background:rgba(184,148,63,0.12);border:1px solid rgba(184,148,63,0.2);color:var(--gold-light);font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:2px 8px;border-radius:20px;margin-left:6px;vertical-align:middle;}
+
+/* IDENTIFICATION FIELDS */
+.id-fields{display:flex;flex-direction:column;gap:0.8rem;margin-bottom:1.5rem;}
+.id-label{font-size:0.65rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:rgba(253,250,244,0.4);margin-bottom:0.4rem;display:block;}
+.id-input{width:100%;background:transparent;border:1px solid rgba(184,148,63,0.18);border-radius:2px;padding:0.9rem 1.1rem;color:var(--cream);font-family:'DM Sans',sans-serif;font-size:0.88rem;font-weight:300;outline:none;transition:border-color 0.2s;-webkit-appearance:none;}
+.id-input:focus{border-color:var(--gold);}
+.id-input::placeholder{color:rgba(253,250,244,0.2);}
+.id-separator{display:flex;align-items:center;gap:0.8rem;margin:0.2rem 0;}
+.id-separator-line{flex:1;height:1px;background:rgba(255,255,255,0.06);}
+.id-separator-text{font-size:0.62rem;font-weight:400;color:rgba(253,250,244,0.2);letter-spacing:0.1em;text-transform:uppercase;}
+
+/* OPTIONS */
+.options{display:flex;flex-direction:column;gap:0.45rem;}
+.option{
+  display:flex;align-items:center;gap:0.9rem;
+  padding:0.85rem 1.1rem;
+  border:1px solid rgba(184,148,63,0.1);
+  border-radius:2px;cursor:pointer;
+  transition:all 0.18s;
+  -webkit-tap-highlight-color:transparent;
+  min-height:52px;
+  background:rgba(255,255,255,0.02);
+}
+.option:hover{border-color:rgba(184,148,63,0.28);background:rgba(184,148,63,0.04);}
+.option.selected{border-color:rgba(184,148,63,0.45);background:rgba(184,148,63,0.08);}
+.opt-indicator{
+  width:20px;height:20px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:all 0.18s;
+}
+/* Radio */
+.opt-radio{width:20px;height:20px;border-radius:50%;border:1px solid rgba(184,148,63,0.3);position:relative;flex-shrink:0;transition:all 0.18s;}
+.opt-radio::after{content:'';position:absolute;inset:4px;border-radius:50%;background:var(--gold);opacity:0;transform:scale(0);transition:all 0.18s;}
+.option.selected .opt-radio{border-color:var(--gold);}
+.option.selected .opt-radio::after{opacity:1;transform:scale(1);}
+/* Checkbox */
+.opt-check{width:20px;height:20px;border-radius:2px;border:1px solid rgba(184,148,63,0.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.18s;}
+.opt-check svg{opacity:0;transition:opacity 0.18s;}
+.option.selected .opt-check{background:var(--gold);border-color:var(--gold);}
+.option.selected .opt-check svg{opacity:1;}
+
+.opt-label{font-size:0.84rem;font-weight:400;color:rgba(253,250,244,0.7);transition:color 0.18s;flex:1;}
+.option.selected .opt-label{color:var(--cream);}
+
+/* CUSTOM INPUT */
+.custom-input-wrap{display:none;padding:0.5rem 0 0.2rem;}
+.custom-input-wrap.show{display:block;}
+.custom-input{
+  width:100%;background:transparent;
+  border:none;border-bottom:1px solid rgba(184,148,63,0.25);
+  color:var(--cream);font-family:'DM Sans',sans-serif;
+  font-size:0.84rem;font-weight:300;
+  padding:0.5rem 0;outline:none;
+  transition:border-color 0.2s;
+}
+.custom-input:focus{border-color:var(--gold);}
+.custom-input::placeholder{color:rgba(253,250,244,0.2);}
+
+/* BUTTONS */
+.btn-next{
+  width:100%;padding:1rem;
+  background:var(--gold);color:var(--dark);
+  border:none;border-radius:2px;
+  font-family:'DM Sans',sans-serif;
+  font-size:0.78rem;font-weight:600;
+  letter-spacing:0.16em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  min-height:52px;margin-top:1.5rem;
+}
+.btn-next:hover{background:var(--gold-light);transform:translateY(-1px);}
+.btn-next:active{transform:scale(0.98);}
+.btn-next:disabled{opacity:0.3;cursor:not-allowed;transform:none;}
+.btn-back{
+  width:100%;padding:0.85rem;
+  background:transparent;color:rgba(253,250,244,0.35);
+  border:1px solid rgba(255,255,255,0.07);
+  border-radius:2px;font-family:'DM Sans',sans-serif;
+  font-size:0.7rem;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;margin-top:0.5rem;min-height:46px;
+}
+.btn-back:hover{color:var(--cream);border-color:rgba(255,255,255,0.15);}
+
+/* SUCCESS SCREEN */
+.success-screen{display:none;text-align:center;padding:3rem 0;}
+.success-screen.show{display:block;}
+.success-icon{
+  width:80px;height:80px;border-radius:50%;
+  background:rgba(184,148,63,0.1);
+  border:1px solid rgba(184,148,63,0.25);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;
+  font-size:2.2rem;
+}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--cream);margin-bottom:0.6rem;line-height:1.2;}
+.success-title em{font-style:italic;color:var(--gold-light);}
+.success-desc{font-size:0.88rem;font-weight:300;color:rgba(253,250,244,0.5);line-height:1.8;margin-bottom:0.5rem;}
+.success-gift-card{
+  background:linear-gradient(135deg,rgba(184,148,63,0.15),rgba(212,174,90,0.06));
+  border:1px solid rgba(184,148,63,0.25);
+  border-radius:3px;
+  padding:1.5rem;
+  margin:2rem 0;
+  text-align:left;
+}
+.success-gift-card h3{font-size:0.72rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold-light);margin-bottom:0.5rem;}
+.success-gift-card p{font-size:0.84rem;font-weight:300;color:rgba(253,250,244,0.6);line-height:1.7;}
+.btn-wa-success{
+  display:inline-flex;align-items:center;justify-content:center;gap:9px;
+  background:var(--green);color:#fff;
+  text-decoration:none;padding:1rem 2rem;
+  border-radius:2px;font-size:0.78rem;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;
+  transition:all 0.2s;width:100%;min-height:52px;
+}
+.btn-wa-success:hover{background:#1DAA54;transform:translateY(-1px);}
+.btn-site{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:100%;padding:0.85rem;margin-top:0.5rem;
+  border:1px solid rgba(255,255,255,0.08);color:rgba(253,250,244,0.4);
+  text-decoration:none;border-radius:2px;
+  font-size:0.72rem;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;
+  transition:all 0.2s;
+}
+.btn-site:hover{border-color:var(--gold-light);color:var(--gold-light);}
+
+/* DIVIDER */
+.form-div{height:1px;background:rgba(184,148,63,0.08);margin:1.3rem 0;}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+
+/* RESPONSIVE */
+@media(max-width:640px){
+  .main{padding:0 1.1rem 3rem;}
+  .step-q{font-size:1.35rem;}
+  .gift-banner{padding:1rem 1.1rem;gap:0.8rem;}
+  .gift-icon{font-size:1.5rem;}
+}
+@media(max-width:374px){
+  .intro h1{font-size:1.8rem;}
+  .step-q{font-size:1.2rem;}
+}
+@media(hover:none){
+  .option:active{background:rgba(184,148,63,0.07);border-color:rgba(184,148,63,0.3);}
+  .btn-next:active{transform:scale(0.97);}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-wrap">
+  <div class="bg-top"></div>
+  <div class="bg-lines"></div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="https://rosanabijoux.com" class="logo">
+      <img src="data:image/png;base64,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" alt="Rosana Bijoux" style="height:26px;width:auto;">
+      <span class="logo-text">Rosana <span>Bijoux</span></span>
+    </a>
+    <span class="header-tag">Pesquisa exclusiva</span>
+  </div>
+</header>
+
+<div class="main">
+
+  <!-- GIFT BANNER -->
+  <div class="gift-banner">
+    <span class="gift-icon">🎁</span>
+    <div class="gift-text">
+      <p>Brinde garantido para quem participar</p>
+      <p>Responda as perguntas abaixo e ganhe um brinde especial na sua próxima compra — nossa forma de agradecer pela sua opinião.</p>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="intro">
+    <p class="intro-eyebrow">Só para primeiras compras</p>
+    <h1>Conta pra gente<br>o que <em>achou</em></h1>
+    <p>São apenas 6 perguntas rápidas. Sua opinião é muito importante para melhorarmos cada vez mais e te atender ainda melhor nas próximas compras.</p>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress-wrap" id="progress-wrap">
+    <div class="progress-bar-bg">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+    <div class="progress-info">
+      <span class="progress-label" id="progress-label">Identificação</span>
+      <span class="progress-frac" id="progress-frac">0 / 7</span>
+    </div>
+  </div>
+
+  <!-- ── STEP 0: IDENTIFICAÇÃO ── -->
+  <div class="step-card active" id="step-0">
+    <h2 class="step-q">Vamos te <em>identificar</em></h2>
+    <p class="step-hint">Informe o número do pedido ou o e-mail usado na compra — basta um dos dois.</p>
+
+    <div class="id-fields">
+      <div>
+        <span class="id-label">Número do pedido</span>
+        <input type="text" class="id-input" id="field-pedido" placeholder="Ex: 123456" oninput="checkId()">
+      </div>
+      <div class="id-separator">
+        <div class="id-separator-line"></div>
+        <span class="id-separator-text">ou</span>
+        <div class="id-separator-line"></div>
+      </div>
+      <div>
+        <span class="id-label">E-mail da compra</span>
+        <input type="email" class="id-input" id="field-email" placeholder="seuemail@exemplo.com" oninput="checkId()">
+      </div>
+    </div>
+
+    <button class="btn-next" id="btn-0" onclick="nextStep(1)" disabled>
+      Começar pesquisa
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 4L10 8L6 12"/></svg>
+    </button>
+  </div>
+
+  <!-- ── STEP 1: COMO CONHECEU ── -->
+  <div class="step-card" id="step-1">
+    <h2 class="step-q">Como você <em>nos conheceu?</em></h2>
+    <p class="step-hint">Selecione uma opção</p>
+
+    <div class="options" id="opts-1">
+      <div class="option" onclick="selectRadio(this,'q1')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Instagram ou TikTok</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q1')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Indicação de amiga ou conhecida</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q1')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Pesquisa no Google</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q1')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">WhatsApp ou grupo de revendedoras</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q1')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Já conhecia a loja</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q1','custom-1')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Outro</span>
+      </div>
+    </div>
+    <div class="custom-input-wrap" id="custom-1">
+      <input type="text" class="custom-input" id="custom-input-1" placeholder="Escreva aqui...">
+    </div>
+
+    <button class="btn-next" id="btn-1" onclick="nextStep(2)" disabled>
+      Próxima
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 4L10 8L6 12"/></svg>
+    </button>
+    <button class="btn-back" onclick="prevStep(0)">← Voltar</button>
+  </div>
+
+  <!-- ── STEP 2: POR QUE COMPROU ── -->
+  <div class="step-card" id="step-2">
+    <h2 class="step-q">O que te fez <em>decidir comprar</em> conosco?</h2>
+    <p class="step-hint">Pode marcar mais de uma opção <span class="multi-badge">múltipla escolha</span></p>
+
+    <div class="options" id="opts-2">
+      <div class="option" onclick="toggleCheck(this,'q2')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Preço das peças</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q2')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Condições de pagamento</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q2')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Variedade de produtos</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q2')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">As peças são bonitas e chamaram minha atenção</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q2')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Confiança e tempo de mercado</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q2')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Encontrei itens que não vejo em qualquer fornecedor</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q2')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Indicação de alguém de confiança</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q2','custom-2')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Outro</span>
+      </div>
+    </div>
+    <div class="custom-input-wrap" id="custom-2">
+      <input type="text" class="custom-input" id="custom-input-2" placeholder="Escreva aqui...">
+    </div>
+
+    <button class="btn-next" id="btn-2" onclick="nextStep(3)" disabled>
+      Próxima
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 4L10 8L6 12"/></svg>
+    </button>
+    <button class="btn-back" onclick="prevStep(1)">← Voltar</button>
+  </div>
+
+  <!-- ── STEP 3: O QUE CHAMOU ATENÇÃO ── -->
+  <div class="step-card" id="step-3">
+    <h2 class="step-q">O que mais <em>chamou atenção</em> na loja?</h2>
+    <p class="step-hint">Pode marcar mais de uma opção <span class="multi-badge">múltipla escolha</span></p>
+
+    <div class="options" id="opts-3">
+      <div class="option" onclick="toggleCheck(this,'q3')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">As fotos dos produtos</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q3')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">A facilidade de navegar no site</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q3')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">As informações sobre as peças</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q3')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">O atendimento</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q3')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Alguma promoção chamou minha atenção</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q3','custom-3')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Outro</span>
+      </div>
+    </div>
+    <div class="custom-input-wrap" id="custom-3">
+      <input type="text" class="custom-input" id="custom-input-3" placeholder="Escreva aqui...">
+    </div>
+
+    <button class="btn-next" id="btn-3" onclick="nextStep(4)" disabled>
+      Próxima
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 4L10 8L6 12"/></svg>
+    </button>
+    <button class="btn-back" onclick="prevStep(2)">← Voltar</button>
+  </div>
+
+  <!-- ── STEP 4: PERFIL ── -->
+  <div class="step-card" id="step-4">
+    <h2 class="step-q">Qual é o seu <em>perfil</em> hoje?</h2>
+    <p class="step-hint">Selecione uma opção</p>
+
+    <div class="options" id="opts-4">
+      <div class="option" onclick="selectRadio(this,'q4')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Já tenho loja / revendo há algum tempo</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q4')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Estou começando agora minha revenda</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q4')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Estou procurando um novo fornecedor</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q4')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Comprei para uso pessoal</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q4','custom-4')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Outro</span>
+      </div>
+    </div>
+    <div class="custom-input-wrap" id="custom-4">
+      <input type="text" class="custom-input" id="custom-input-4" placeholder="Escreva aqui...">
+    </div>
+
+    <button class="btn-next" id="btn-4" onclick="nextStep(5)" disabled>
+      Próxima
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 4L10 8L6 12"/></svg>
+    </button>
+    <button class="btn-back" onclick="prevStep(3)">← Voltar</button>
+  </div>
+
+  <!-- ── STEP 5: EXPECTATIVA ── -->
+  <div class="step-card" id="step-5">
+    <h2 class="step-q">Qual a sua <em>expectativa</em> com essa compra?</h2>
+    <p class="step-hint">Pode marcar mais de uma opção <span class="multi-badge">múltipla escolha</span></p>
+
+    <div class="options" id="opts-5">
+      <div class="option" onclick="toggleCheck(this,'q5')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Testar a qualidade antes de comprar mais</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q5')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Montar meu estoque inicial</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q5')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Ampliar meu estoque atual</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q5')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Revender para amigas e conhecidas</span>
+      </div>
+      <div class="option" onclick="toggleCheck(this,'q5','custom-5')">
+        <div class="opt-check"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="#1C1811" stroke-width="2.2" stroke-linecap="round"><path d="M2 5L4 7L8 3"/></svg></div>
+        <span class="opt-label">Outro</span>
+      </div>
+    </div>
+    <div class="custom-input-wrap" id="custom-5">
+      <input type="text" class="custom-input" id="custom-input-5" placeholder="Escreva aqui...">
+    </div>
+
+    <button class="btn-next" id="btn-5" onclick="nextStep(6)" disabled>
+      Próxima
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 4L10 8L6 12"/></svg>
+    </button>
+    <button class="btn-back" onclick="prevStep(4)">← Voltar</button>
+  </div>
+
+  <!-- ── STEP 6: FREQUÊNCIA ── -->
+  <div class="step-card" id="step-6">
+    <h2 class="step-q">Com qual <em>frequência</em> você pretende fazer pedidos?</h2>
+    <p class="step-hint">Selecione uma opção</p>
+
+    <div class="options" id="opts-6">
+      <div class="option" onclick="selectRadio(this,'q6')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Toda semana ou quinzena</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q6')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Uma vez por mês</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q6')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">A cada 2 a 3 meses</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q6')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Ainda não sei, depende dos resultados</span>
+      </div>
+      <div class="option" onclick="selectRadio(this,'q6')">
+        <div class="opt-radio"></div>
+        <span class="opt-label">Foi uma compra pontual</span>
+      </div>
+    </div>
+
+    <button class="btn-next" id="btn-6" onclick="submitSurvey()" disabled>
+      Enviar e garantir meu brinde 🎁
+    </button>
+    <button class="btn-back" onclick="prevStep(5)">← Voltar</button>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-screen" id="success">
+    <div class="success-icon">🎉</div>
+    <h2 class="success-title">Obrigada pela sua<br><em>opinião!</em></h2>
+    <p class="success-desc">Sua resposta foi registrada e vai nos ajudar muito a melhorar. Agradecemos de coração!</p>
+
+    <div class="success-gift-card">
+      <h3>🎁 Seu brinde está garantido</h3>
+      <p>Na sua próxima compra, entre em contato pelo WhatsApp informando que participou da pesquisa e o número do seu pedido — nossa equipe vai incluir um brindinho especial pra você. 💛</p>
+    </div>
+
+    <a id="wa-btn" href="#" target="_blank" class="btn-wa-success">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Avisar que participei da pesquisa
+    </a>
+    <a href="https://rosanabijoux.com/produtos" class="btn-site">Ver novidades na loja →</a>
+  </div>
+
+</div>
+
+<script>
+// ── STATE ──
+const TOTAL = 7; // 0=id, 1-6=perguntas
+const answers = { id_pedido:'', id_email:'', q1:'', q2:[], q3:[], q4:'', q5:[], q6:'' };
+
+const LABELS = ['Identificação','Como conheceu','Por que comprou','O que chamou atenção','Seu perfil','Expectativa','Frequência'];
+
+// ── PROGRESS ──
+function updateProgress(step) {
+  const pct = (step / TOTAL) * 100;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-label').textContent = LABELS[step] || '';
+  document.getElementById('progress-frac').textContent = step + ' / ' + TOTAL;
+}
+
+// ── NAV ──
+function nextStep(to) {
+  document.getElementById('step-'+(to-1)).classList.remove('active');
+  const next = document.getElementById('step-'+to);
+  if (next) { next.classList.add('active'); }
+  updateProgress(to);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function prevStep(to) {
+  document.getElementById('step-'+(to+1)).classList.remove('active');
+  document.getElementById('step-'+to).classList.add('active');
+  updateProgress(to);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── IDENTIFICATION ──
+function checkId() {
+  const ped = document.getElementById('field-pedido').value.trim();
+  const email = document.getElementById('field-email').value.trim();
+  answers.id_pedido = ped;
+  answers.id_email = email;
+  document.getElementById('btn-0').disabled = !(ped.length > 2 || email.includes('@'));
+}
+
+// ── RADIO ──
+function selectRadio(el, key, customId) {
+  el.closest('.options').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  answers[key] = el.querySelector('.opt-label').textContent;
+  document.getElementById('btn-' + key.replace('q','') ).disabled = false;
+  // handle custom field visibility
+  document.querySelectorAll('[id^="custom-"]').forEach(c => {
+    if (c.id.startsWith('custom-') && c.closest('.step-card') === el.closest('.step-card')) {
+      c.classList.remove('show');
+    }
+  });
+  if (customId) {
+    document.getElementById(customId).classList.add('show');
+    document.getElementById(customId.replace('custom-','custom-input-')).focus();
+  }
+}
+
+// ── CHECKBOX ──
+function toggleCheck(el, key, customId) {
+  el.classList.toggle('selected');
+  if (customId) {
+    const wrap = document.getElementById(customId);
+    if (el.classList.contains('selected')) {
+      wrap.classList.add('show');
+      document.getElementById(customId.replace('custom-','custom-input-')).focus();
+    } else {
+      wrap.classList.remove('show');
+    }
+  }
+  const checked = el.closest('.options').querySelectorAll('.selected');
+  answers[key] = Array.from(checked).map(c => c.querySelector('.opt-label').textContent);
+  const stepNum = el.closest('.step-card').id.replace('step-','');
+  document.getElementById('btn-'+stepNum).disabled = checked.length === 0;
+}
+
+// ── SUBMIT ──
+// ── GOOGLE SHEETS URL ──
+// Cole aqui a URL do seu Google Apps Script após configurar
+const SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwzmuzldEsXbZnDB1LKpV4_IE9E5aZSHcHJE5KQ_tgtJ9Adg5jaL-Ry1aQfZRnTRQqApQ/exec';
+
+function submitSurvey() {
+  // collect custom texts
+  ['1','2','3','4','5'].forEach(n => {
+    const el = document.getElementById('custom-input-'+n);
+    if (el && el.value.trim() && document.getElementById('custom-'+n).classList.contains('show')) {
+      const val = el.value.trim();
+      if (Array.isArray(answers['q'+n])) {
+        answers['q'+n] = answers['q'+n].map(v => v === 'Outro' ? 'Outro: ' + val : v);
+      } else {
+        if (answers['q'+n] === 'Outro') answers['q'+n] = 'Outro: ' + val;
+      }
+    }
+  });
+
+  // Save obs
+  answers.obs = document.getElementById('obs-input') ? document.getElementById('obs-input').value.trim() : '';
+
+  // Build WA message
+  const id = answers.id_pedido ? 'Pedido #' + answers.id_pedido : 'E-mail: ' + answers.id_email;
+  let msg = `✅ Pesquisa de satisfação — Rosana Bijoux\n\n`;
+  msg += `🔖 ${id}\n\n`;
+  msg += `1️⃣ Como conheceu: ${answers.q1}\n\n`;
+  msg += `2️⃣ Por que comprou: ${Array.isArray(answers.q2) ? answers.q2.join(', ') : answers.q2}\n\n`;
+  msg += `3️⃣ O que chamou atenção: ${Array.isArray(answers.q3) ? answers.q3.join(', ') : answers.q3}\n\n`;
+  msg += `4️⃣ Perfil: ${answers.q4}\n\n`;
+  msg += `5️⃣ Expectativa: ${Array.isArray(answers.q5) ? answers.q5.join(', ') : answers.q5}\n\n`;
+  msg += `6️⃣ Frequência: ${answers.q6}\n\n`;
+  msg += `Participei da pesquisa e quero garantir meu brinde! 🎁`;
+
+  const wa_url = 'https://wa.me/5511953894389?text=' + encodeURIComponent(msg);
+  document.getElementById('wa-btn').href = wa_url;
+
+  // Send to Google Sheets
+  if (SHEETS_URL && SHEETS_URL !== 'COLE_SUA_URL_AQUI') {
+    const payload = {
+      data: new Date().toLocaleString('pt-BR', {timeZone:'America/Sao_Paulo'}),
+      identificacao: id,
+      como_conheceu: answers.q1,
+      por_que_comprou: Array.isArray(answers.q2) ? answers.q2.join(', ') : answers.q2,
+      chamou_atencao: Array.isArray(answers.q3) ? answers.q3.join(', ') : answers.q3,
+      perfil: answers.q4,
+      expectativa: Array.isArray(answers.q5) ? answers.q5.join(', ') : answers.q5,
+      frequencia: answers.q6,
+      observacoes: answers.obs || ''
+    };
+    fetch(SHEETS_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(payload)
+    }).catch(e => console.log('Sheets error:', e));
+  }
+
+  // Show success
+  document.getElementById('step-6').classList.remove('active');
+  document.getElementById('progress-wrap').style.display = 'none';
+  document.getElementById('success').classList.add('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// Init
+updateProgress(0);
+</script>
+
+</body>
+</html>
