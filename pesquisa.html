@@ -675,7 +675,12 @@ function submitSurvey() {
 // ── COUNTDOWN TIMER ──
 (function() {
   const MINUTES = 30;
+  const pagoEmParam = new URLSearchParams(window.location.search).get('pago_em');
   let total = MINUTES * 60;
+  if (pagoEmParam) {
+    const elapsedSec = Math.floor((Date.now() - Number(pagoEmParam)) / 1000);
+    total = Math.max(0, MINUTES * 60 - elapsedSec);
+  }
   const timerEl = document.getElementById('countdown-timer');
   const minEl = document.getElementById('countdown-min');
   const secEl = document.getElementById('countdown-sec');
@@ -708,7 +713,15 @@ function submitSurvey() {
 })();
 
 // Init
-updateProgress(0);
+const urlParams = new URLSearchParams(window.location.search);
+const prefilledPedido = urlParams.get('pedido');
+if (prefilledPedido) {
+  document.getElementById('field-pedido').value = prefilledPedido;
+  answers.id_pedido = prefilledPedido;
+  nextStep(1);
+} else {
+  updateProgress(0);
+}
 
 
 // Override updateProgress to also update floating counter and use new dot system
@@ -749,45 +762,6 @@ function updateProgress(step) {
   const cdWrap = document.getElementById('countdown-wrap');
   if (cdWrap && step === 0) cdWrap.style.display = 'flex';
 }
-
-
-// ── COUNTDOWN TIMER ──
-(function() {
-  const MINUTES = 30;
-  let total = MINUTES * 60;
-  const timerEl = document.getElementById('countdown-timer');
-  const minEl = document.getElementById('countdown-min');
-  const secEl = document.getElementById('countdown-sec');
-  const subEl = document.getElementById('countdown-sub');
-  const wrapEl = document.getElementById('countdown-wrap');
-
-  function update() {
-    if (total <= 0) {
-      if (timerEl) timerEl.innerHTML = '<span style="font-size:1rem;color:var(--mid);">Não se preocupe!</span>';
-      if (subEl) subEl.textContent = 'Ainda pode responder — nossa equipe vai avaliar com carinho 💛';
-      if (wrapEl) wrapEl.style.borderColor = 'var(--beige-mid)';
-      return;
-    }
-    const m = Math.floor(total / 60);
-    const s = total % 60;
-    if (minEl) minEl.textContent = String(m).padStart(2,'0');
-    if (secEl) secEl.textContent = String(s).padStart(2,'0');
-
-    if (total <= 300) { // últimos 5 min
-      if (timerEl) timerEl.classList.add('urgent');
-      if (subEl) subEl.textContent = 'Últimos minutos! Responda agora 🔥';
-    } else if (total <= 600) {
-      if (subEl) subEl.textContent = 'Menos de 10 minutos restantes!';
-    }
-
-    total--;
-    setTimeout(update, 1000);
-  }
-  update();
-})();
-
-// Init
-updateProgress(0);
 </script>
 
 </body>
