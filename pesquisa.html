@@ -628,34 +628,27 @@ function submitSurvey() {
   // Save obs
   answers.obs = document.getElementById('obs-input') ? document.getElementById('obs-input').value.trim() : '';
 
-  // Build WA message
+  // Build WA message — curta, sem dump das respostas (pedido explícito do
+  // usuário: só confirma que preencheu, não expõe as respostas no texto).
   const id = answers.id_pedido ? 'Pedido #' + answers.id_pedido : 'E-mail: ' + answers.id_email;
-  let msg = `✅ Pesquisa de satisfação — Rosana Bijoux\n\n`;
-  msg += `🔖 ${id}\n\n`;
-  msg += `1️⃣ Como conheceu: ${answers.q1}\n\n`;
-  msg += `2️⃣ Por que comprou: ${Array.isArray(answers.q2) ? answers.q2.join(', ') : answers.q2}\n\n`;
-  msg += `3️⃣ O que chamou atenção: ${Array.isArray(answers.q3) ? answers.q3.join(', ') : answers.q3}\n\n`;
-  msg += `4️⃣ Perfil: ${answers.q4}\n\n`;
-  msg += `5️⃣ Expectativa: ${Array.isArray(answers.q5) ? answers.q5.join(', ') : answers.q5}\n\n`;
-  msg += `6️⃣ Frequência: ${answers.q6}\n\n`;
-  msg += `Oi! Preenchi a pesquisa de satisfação da Rosana Bijoux 😊 Manda meu brinde! 🎁`;
-
-  const wa_url = 'https://wa.me/5511953894389?text=' + encodeURIComponent(msg);
+  const wa_url = 'https://wa.me/5511953894389?text=' + encodeURIComponent('Pesquisa preenchida, pode mandar meu brinde? 🎁');
   document.getElementById('wa-btn').href = wa_url;
 
-  // Send to Google Sheets
+  // payload compartilhado pelos 2 destinos (Sheets + Agente Disparo)
+  const payload = {
+    data: new Date().toLocaleString('pt-BR', {timeZone:'America/Sao_Paulo'}),
+    identificacao: id,
+    como_conheceu: answers.q1,
+    por_que_comprou: Array.isArray(answers.q2) ? answers.q2.join(', ') : answers.q2,
+    chamou_atencao: Array.isArray(answers.q3) ? answers.q3.join(', ') : answers.q3,
+    perfil: answers.q4,
+    expectativa: Array.isArray(answers.q5) ? answers.q5.join(', ') : answers.q5,
+    frequencia: answers.q6,
+    observacoes: answers.obs || ''
+  };
+
+  // Send to Google Sheets (fonte principal, continua igual)
   if (SHEETS_URL && SHEETS_URL !== 'COLE_SUA_URL_AQUI') {
-    const payload = {
-      data: new Date().toLocaleString('pt-BR', {timeZone:'America/Sao_Paulo'}),
-      identificacao: id,
-      como_conheceu: answers.q1,
-      por_que_comprou: Array.isArray(answers.q2) ? answers.q2.join(', ') : answers.q2,
-      chamou_atencao: Array.isArray(answers.q3) ? answers.q3.join(', ') : answers.q3,
-      perfil: answers.q4,
-      expectativa: Array.isArray(answers.q5) ? answers.q5.join(', ') : answers.q5,
-      frequencia: answers.q6,
-      observacoes: answers.obs || ''
-    };
     fetch(SHEETS_URL, {
       method: 'POST',
       mode: 'no-cors',
@@ -663,6 +656,22 @@ function submitSurvey() {
       body: JSON.stringify(payload)
     }).catch(e => console.log('Sheets error:', e));
   }
+
+  // Send to Agente Disparo, em paralelo — só pra dar visibilidade de "quem
+  // respondeu" no painel de Conferência de Pedidos; não substitui o Sheets
+  // acima, e uma falha aqui não pode travar o fluxo (por isso .catch vazio,
+  // mesmo padrão já usado na chamada ao Sheets logo acima).
+  fetch('https://disparo-agente-disparo-agente.tgs1ne.easypanel.host/api/public/survey-responses', {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      tenant_slug: 'rosanabijoux',
+      order_number: answers.id_pedido || null,
+      email: answers.id_email || null,
+      answers: payload,
+    })
+  }).catch(e => console.log('Agente Disparo error:', e));
 
   // Show success
   document.getElementById('step-6').classList.remove('active');
