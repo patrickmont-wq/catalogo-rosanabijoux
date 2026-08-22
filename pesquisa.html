@@ -676,9 +676,10 @@ function submitSurvey() {
 (function() {
   const MINUTES = 30;
   const pagoEmParam = new URLSearchParams(window.location.search).get('pago_em');
+  const pagoEmMs = pagoEmParam ? Number(pagoEmParam) : NaN;
   let total = MINUTES * 60;
-  if (pagoEmParam) {
-    const elapsedSec = Math.floor((Date.now() - Number(pagoEmParam)) / 1000);
+  if (Number.isFinite(pagoEmMs)) {
+    const elapsedSec = Math.floor((Date.now() - pagoEmMs) / 1000);
     total = Math.max(0, MINUTES * 60 - elapsedSec);
   }
   const timerEl = document.getElementById('countdown-timer');
@@ -718,6 +719,7 @@ const prefilledPedido = urlParams.get('pedido');
 if (prefilledPedido) {
   document.getElementById('field-pedido').value = prefilledPedido;
   answers.id_pedido = prefilledPedido;
+  document.getElementById('btn-0').disabled = false;
   nextStep(1);
 } else {
   updateProgress(0);
