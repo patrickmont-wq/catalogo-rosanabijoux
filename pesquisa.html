@@ -661,9 +661,17 @@ function submitSurvey() {
   // respondeu" no painel de Conferência de Pedidos; não substitui o Sheets
   // acima, e uma falha aqui não pode travar o fluxo (por isso .catch vazio,
   // mesmo padrão já usado na chamada ao Sheets logo acima).
+  // mode:'cors' (não 'no-cors' como o Sheets acima): esse endpoint é nosso
+  // e já libera CORS de verdade (Access-Control-Allow-Origin: *), diferente
+  // do Apps Script do Sheets. Achado real em teste ao vivo (2026-08-22):
+  // com 'no-cors', um navegador real recebia 503 de forma reproduzível
+  // (100% das tentativas) nesta chamada específica — headers/Content-Type
+  // idênticos via curl sempre davam 201, só a requisição real do Chrome em
+  // modo no-cors falhava; trocando pra 'cors' (com o mesmo payload, no
+  // mesmo navegador) o problema sumiu 100% das vezes testadas.
   fetch('https://disparo-agente-disparo-agente.tgs1ne.easypanel.host/api/public/survey-responses', {
     method: 'POST',
-    mode: 'no-cors',
+    mode: 'cors',
     headers: {'Content-Type': 'application/json'},
     body: JSON.stringify({
       tenant_slug: 'rosanabijoux',
