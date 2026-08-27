@@ -348,8 +348,8 @@ header{
     <span class="countdown-icon">⏰</span>
     <div class="countdown-text">
       <p>Responda agora e garanta seu brinde</p>
-      <div class="countdown-timer" id="countdown-timer"><span id="countdown-min">30</span>:<span id="countdown-sec">00</span></div>
-      <p class="countdown-sub" id="countdown-sub">Preencha nos próximos 30 minutos</p>
+      <div class="countdown-timer" id="countdown-timer"><span id="countdown-min">60</span>:<span id="countdown-sec">00</span></div>
+      <p class="countdown-sub" id="countdown-sub">Preencha nos próximos 60 minutos</p>
     </div>
   </div>
 
@@ -691,7 +691,7 @@ function submitSurvey() {
 
 // ── COUNTDOWN TIMER ──
 (function() {
-  const MINUTES = 30;
+  const MINUTES = 60;
   const pagoEmParam = new URLSearchParams(window.location.search).get('pago_em');
   const pagoEmMs = pagoEmParam ? Number(pagoEmParam) : NaN;
   let total = MINUTES * 60;
