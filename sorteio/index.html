@@ -175,7 +175,10 @@ fieldset.campo{border:0;margin:0 0 14px;padding:0;min-width:0}
 .trilho{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;margin:0 -20px 18px;padding-left:20px;padding-right:20px;scroll-padding:0 20px;scrollbar-width:thin}
 .depo{flex:0 0 78%;max-width:320px;scroll-snap-align:start;background:var(--nevoa);padding:20px 18px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;margin:0}
 .depo img{width:calc(100% + 36px);margin:-20px -18px 0;aspect-ratio:1/1;height:auto;object-fit:cover}
-.depo blockquote{margin:0;font-size:14px;line-height:1.55;flex:1}
+.depo blockquote{margin:0;font-size:14px;line-height:1.55}
+.depo blockquote.corta{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;line-clamp:7;overflow:hidden}
+.depo .ler{align-self:flex-start;background:none;border:0;padding:0;margin-top:-8px;color:var(--terracota);font-size:13px;font-weight:600;text-decoration:underline}
+.depo figcaption{margin-top:auto}
 .depo figcaption{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--texto-suave);font-weight:600}
 @media (min-width:900px){.trilho{margin:0 0 18px;padding-left:0;padding-right:0;scroll-padding:0}.depo{flex-basis:300px}}
 .avaliacoes .btn-contorno{max-width:420px;margin:0 auto}
@@ -427,6 +430,22 @@ const CONFIG = {
     // Na ordem em que aparecem (mais recente primeiro). foto e data são opcionais;
     // a foto fica em sorteio/avaliacoes/.
     // { texto: 'As peças são delicadas...', nome: 'Carla A.', data: 'out/2026', foto: 'avaliacoes/carla.webp' },
+    {
+      nome: 'Amanda G.',
+      texto: 'Sou cliente mais ou menos há 6 anos.. compro de vários fornecedores, pois cada um tem o seu diferencial, porém a Rosana é a única em que eu preciso fazer pedido todo mês, a qualidade, o preço e a agilidade em que chega o pedido, é surreal. Eu amo e não deixo de comprar nunca, fora que sempre estão inovando nas peças. Então se você está pensando em começar um negocio e não sabe por onde, vai no certo, Rosana Bijoux, peças fáceis de revender e com lucros ótimos, fora a qualidade das bijus!!!',
+    },
+    {
+      nome: 'Fernanda A.',
+      texto: 'Estou encantada com o excelente atendimento, entrega super rápida e produtos lindíssimos! A embalagem é surpreendente, tudo separado com cuidado! Empresa recomendadíssima!',
+    },
+    {
+      nome: 'Wilseleia S.',
+      texto: 'Gostei bastante das joias que comprei! As peças são delicadas, bem detalhadas e combinam com vários looks, desde os mais simples até os mais arrumados. O acabamento é muito bom e aparenta ser um produto de qualidade. A entrega foi rápida e tudo veio certinho. Foi uma compra que valeu a pena! 💖',
+    },
+    {
+      nome: 'Kimberlly S.',
+      texto: 'Sempre compro para revender em minha loja @estacaofeminina23. Aliás comecei no ramo de acessórios com a Rosana. Recomendo a todos, equipe abençoada e sempre pronta para nos ajudar. Nunca tive problema com eles. Deus abençoe e prospere.',
+    },
   ],
 
   TEXTO_WHATSAPP: 'Oi! Vim pela página do sorteio de Black Friday 💎',
@@ -547,9 +566,23 @@ const CONFIG = {
       est.setAttribute('role', 'img'); est.setAttribute('aria-label', '5 estrelas');
       const q = document.createElement('blockquote'); q.textContent = a.texto;
       const c = document.createElement('figcaption'); c.textContent = a.data ? a.nome + ' · ' + a.data : a.nome;
+      q.className = 'corta';
       fig.append(est, q, c); trilho.appendChild(fig);
     });
     trilho.hidden = false;
+    // texto longo fica em 7 linhas; só os que passaram disso ganham "Ler tudo"
+    trilho.querySelectorAll('blockquote.corta').forEach((q) => {
+      if (q.scrollHeight <= q.clientHeight + 2) { q.classList.remove('corta'); return; }
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'ler'; b.textContent = 'Ler tudo';
+      b.setAttribute('aria-expanded', 'false');
+      b.addEventListener('click', () => {
+        const aberto = q.classList.toggle('corta') === false;
+        b.textContent = aberto ? 'Ler menos' : 'Ler tudo';
+        b.setAttribute('aria-expanded', String(aberto));
+      });
+      q.after(b);
+    });
   }
   if (CONFIG.NOTA_GOOGLE) {
     const n = $('nota');
