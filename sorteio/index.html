@@ -1,0 +1,808 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sorteio Black Friday · Rosana Bijoux</title>
+<meta name="description" content="Cadastre-se e entre no grupo VIP para concorrer a R$500 e R$200 em compras na Rosana Bijoux.">
+<!-- Tirar o noindex quando o regulamento, o CNPJ e a planilha estiverem prontos. -->
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#25262a">
+<meta property="og:title" content="Sorteio Black Friday · Rosana Bijoux">
+<meta property="og:description" content="1º lugar R$500 e 2º lugar R$200 em compras. Cadastre-se e entre no grupo VIP.">
+<meta property="og:image" content="https://links.rosanabijoux.com/sorteio/modelo-640.jpg">
+<meta property="og:type" content="website">
+<link rel="preload" href="pf-marlett.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="modelo-480.webp" as="image" imagesrcset="modelo-480.webp 480w, modelo-800.webp 800w" imagesizes="(min-width: 900px) 360px, 260px">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+@font-face{
+  font-family:'PF Marlett';
+  src:url('pf-marlett.woff2') format('woff2');
+  font-weight:400;font-style:normal;font-display:swap;
+}
+:root{
+  --carvao:#25262a;      /* fundo escuro, texto */
+  --carvao-2:#2f3035;
+  --terracota:#8b3a2b;   /* ação principal, 1º lugar */
+  --terracota-esc:#73301f;
+  --pessego:#efb894;     /* avisos, destaques no escuro */
+  --nevoa:#efefef;       /* fundo claro das seções */
+  --branco:#ffffff;
+  --linha:#d9d9d9;       /* divisórias decorativas */
+  --borda-campo:#8e8f94; /* borda de campo: contraste ≥ 3:1 sobre o branco */
+  --texto-suave:#5d5e63;
+  --erro:#b3261e;
+  --ok:#2e6b3f;
+  --serif:'PF Marlett', 'Times New Roman', serif;
+  --sans:'Urbanist', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --barra:76px;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;scroll-padding-top:12px}
+body{margin:0;background:var(--nevoa);color:var(--carvao);font-family:var(--sans);font-size:16px;line-height:1.5;
+  padding-bottom:calc(var(--barra) + env(safe-area-inset-bottom))}
+@media (min-width:900px){body{padding-bottom:0}}
+img{max-width:100%;display:block}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.caps{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:600}
+.serif{font-family:var(--serif);font-weight:400;letter-spacing:-.02em;line-height:1}
+/* foco: terracota no claro, pêssego no escuro */
+:focus-visible{outline:3px solid var(--terracota);outline-offset:2px}
+.hero :focus-visible,.cartao-escuro :focus-visible,footer :focus-visible{outline-color:var(--pessego)}
+.opcao input:focus-visible+span{outline:3px solid var(--terracota);outline-offset:2px}
+
+/* ── faixa e logo ── */
+.faixa{background:#000;color:#fff;text-align:center;padding:8px 10px;font-size:9px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (min-width:600px){.faixa{font-size:10px;letter-spacing:.16em}}
+.topo-logo{background:var(--nevoa);display:flex;justify-content:center;padding:12px 0}
+.logo{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--carvao)}
+.logo svg{width:24px;height:24px;fill:currentColor}
+.logo b{display:block;font-family:var(--serif);font-weight:400;font-size:17px;letter-spacing:.04em;line-height:1}
+.logo small{display:block;font-size:7.5px;letter-spacing:.42em;margin-top:2px}
+
+/* ── topo ── */
+.hero{background:var(--carvao);color:#fff;position:relative;overflow:hidden}
+.hero-padrao{position:absolute;right:-140px;top:-60px;width:520px;height:520px;fill:none;stroke:rgba(255,255,255,.07);stroke-width:2;pointer-events:none}
+.hero-grid{position:relative;display:grid;gap:16px;padding:16px 20px 26px;max-width:1120px;margin:0 auto}
+/* No celular a foto é baixa o bastante para título, prêmios e botão caberem na primeira tela. */
+.arco{border-radius:999px 999px 0 0;overflow:hidden;background:var(--carvao-2);width:min(72%,260px);margin:0 auto;
+  height:clamp(150px,25svh,230px)}
+.arco img{width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+.eyebrow{color:var(--pessego)}
+.hero h1{font-size:clamp(50px,14vw,124px);margin:8px 0 10px}
+.hero p.sub{margin:0 0 18px;font-size:16px;max-width:30ch;line-height:1.4}
+.premios{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.premio{padding:12px 12px 10px;border:1px solid rgba(255,255,255,.28)}
+.premio.p1{background:var(--terracota);border-color:var(--terracota)}
+.premio .caps{font-size:10px;color:var(--pessego)}
+.premio.p1 .caps{color:#f7d9c6}
+.premio .valor{font-size:clamp(34px,10vw,46px);margin:6px 0 2px}
+.premio small{font-size:11px;font-weight:600}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:48px;padding:12px 18px;border:0;border-radius:2px;
+  text-decoration:none;font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;transition:background .15s,transform .05s}
+.btn:active{transform:translateY(1px)}
+.btn-claro{background:var(--nevoa);color:var(--carvao)}
+.btn-claro:hover{background:#fff}
+.btn-principal{background:var(--terracota);color:#fff}
+.btn-principal:hover{background:var(--terracota-esc)}
+.btn-principal[disabled]{opacity:.6;cursor:wait}
+.btn-contorno{background:transparent;color:var(--carvao);border:1px solid var(--borda-campo)}
+.btn-contorno:hover{border-color:var(--carvao)}
+.data-sorteio{margin-top:14px;color:rgba(255,255,255,.75)}
+.contador{display:inline-flex;gap:10px;margin-left:4px;color:#fff}
+.contador b{font-weight:700}
+@media (min-width:900px){
+  .hero-grid{grid-template-columns:1fr 1fr;align-items:center;gap:56px;padding:56px 40px}
+  .arco{width:100%;max-width:360px;height:auto;aspect-ratio:4/5}
+  .hero-texto{max-width:420px}
+  .hero p.sub{font-size:19px}
+  .hero-padrao{right:-60px;top:-80px;width:640px;height:640px}
+}
+
+/* ── seções claras ── */
+section.bloco{padding:44px 0}
+.titulo{font-size:clamp(38px,10vw,58px);margin:10px 0 18px}
+.eyebrow-escuro{color:var(--terracota)}
+.aviso{background:var(--pessego);padding:12px 16px;font-size:14px;margin-bottom:16px}
+.etapas{display:grid;gap:16px}
+@media (min-width:900px){.etapas{grid-template-columns:1fr 1fr;align-items:start}}
+.cartao{background:#fff;border:1px solid var(--linha);padding:22px 18px}
+.cartao-escuro{background:var(--carvao);color:#fff;border-color:var(--carvao)}
+.etapa-topo{display:flex;align-items:flex-end;gap:10px;margin-bottom:16px}
+.etapa-num{font-family:var(--serif);font-size:46px;line-height:.8;color:var(--terracota)}
+.cartao-escuro .etapa-num{color:var(--pessego)}
+.etapa-topo h3{margin:0;font-size:17px;font-weight:600}
+.feito{display:none;margin-left:auto;align-self:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:var(--ok)}
+.cartao-escuro .feito{color:#9ed7ad}
+.is-feito .feito{display:inline}
+
+/* ── formulário ── */
+.campo{margin-bottom:14px}
+.campo>label,.campo legend{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600;margin-bottom:6px;padding:0}
+.campo input[type=text],.campo input[type=tel],.campo input[type=email]{width:100%;height:48px;border:1px solid var(--borda-campo);border-radius:2px;padding:0 14px;
+  font:inherit;font-size:16px;color:var(--carvao);background:#fff}
+.campo input::placeholder{color:#8a8b90}
+.campo input[aria-invalid=true]{border-color:var(--erro);border-width:2px}
+fieldset.campo{border:0;margin:0 0 14px;padding:0;min-width:0}
+.opcoes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opcao{position:relative}
+.opcao input{position:absolute;opacity:0;inset:0;margin:0}
+.opcao span{display:flex;align-items:center;justify-content:center;height:46px;border:1px solid var(--borda-campo);font-size:14px;cursor:pointer;transition:all .12s}
+.opcao input:checked+span{background:var(--carvao);color:#fff;border-color:var(--carvao)}
+.aceite{display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.45;margin:4px 0 16px;cursor:pointer}
+.aceite input{width:20px;height:20px;flex:0 0 20px;margin:1px 0 0;accent-color:var(--terracota)}
+.aceite a{color:var(--terracota);font-weight:600}
+.erro-campo{display:none;color:var(--erro);font-size:13px;margin-top:5px}
+.erro-campo.mostra{display:block}
+.status{font-size:14px;margin-top:12px}
+.status:empty{display:none}
+.status.erro{color:var(--erro)}
+.mel{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.cadastro-ok{display:none}
+.is-feito .cadastro-ok{display:block}
+.is-feito form{display:none}
+.cadastro-ok p{margin:0 0 6px}
+.cadastro-ok strong:focus{outline:none}
+.cadastro-ok button{background:none;border:0;padding:0;color:var(--terracota);text-decoration:underline;font-size:13px}
+.encerrado{display:none;font-size:15px}
+.fechado .encerrado{display:block}
+.fechado form,.fechado .cadastro-ok,.fechado .feito{display:none!important}
+
+.etapa2 p{margin:0 0 16px;font-size:14.5px;color:rgba(255,255,255,.88)}
+.etapa2 .lembrete{margin-top:14px;color:rgba(255,255,255,.72)}
+.etapa2.espera{opacity:.92}
+
+/* ── confirmação ── */
+.confirmacao{display:none;margin-top:16px;background:#fff;border:1px solid var(--linha);border-top:4px solid var(--terracota);padding:24px 18px;text-align:center}
+.confirmacao.mostra{display:block}
+.confirmacao:focus{outline:none}
+.confirmacao h3{font-size:34px;margin:8px 0 10px}
+.confirmacao p{margin:0 auto 18px;max-width:44ch;font-size:15px}
+.confirmacao .acoes{display:grid;gap:10px;max-width:520px;margin:0 auto}
+@media (min-width:600px){.confirmacao .acoes{grid-template-columns:1fr 1fr}}
+
+/* ── avaliações ── */
+.avaliacoes{background:#fff}
+.nota{display:flex;align-items:baseline;gap:10px;margin:-6px 0 18px}
+.nota .serif{font-size:40px}
+.nota small{font-size:12px;color:var(--texto-suave)}
+.estrelas{color:var(--terracota);letter-spacing:2px;font-size:14px}
+.trilho{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;margin:0 -20px 18px;padding-left:20px;padding-right:20px;scrollbar-width:thin}
+.depo{flex:0 0 78%;max-width:320px;scroll-snap-align:start;background:var(--nevoa);padding:20px 18px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;margin:0}
+.depo blockquote{margin:0;font-size:14px;line-height:1.55}
+.depo figcaption{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--texto-suave);font-weight:600}
+@media (min-width:900px){.trilho{margin:0 0 18px;padding-left:0;padding-right:0}.depo{flex-basis:300px}}
+.avaliacoes .btn-contorno{max-width:420px;margin:0 auto}
+
+/* ── perguntas ── */
+.faq{max-width:760px}
+.faq details{border-top:1px solid var(--linha)}
+.faq details:last-child{border-bottom:1px solid var(--linha)}
+.faq summary{list-style:none;cursor:pointer;padding:16px 32px 16px 0;position:relative;font-size:15px;font-weight:500}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:'+';position:absolute;right:4px;top:12px;font-size:22px;font-weight:300;transition:transform .2s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{margin:0 0 16px;font-size:14.5px;color:var(--texto-suave)}
+
+/* ── rodapé ── */
+footer{background:var(--carvao);color:#fff;padding:40px 0 32px;font-size:12px}
+footer .logo{color:#fff;margin-bottom:18px}
+.contatos{display:flex;flex-wrap:wrap;gap:10px 28px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;margin-bottom:18px}
+.contatos a{text-decoration:none}
+.legais{display:flex;flex-wrap:wrap;gap:8px 22px;margin-bottom:16px}
+.legais a{color:var(--pessego);text-decoration:none}
+.legais a:hover{text-decoration:underline}
+.empresa{color:rgba(255,255,255,.65)}
+
+/* ── barra fixa (celular) ── */
+.barra{position:fixed;left:0;right:0;bottom:0;z-index:20;background:#fff;border-top:1px solid var(--linha);
+  padding:10px 12px calc(10px + env(safe-area-inset-bottom));display:flex;gap:8px;transform:translateY(0);transition:transform .2s}
+.barra.some{transform:translateY(110%)}
+.barra .btn{flex:1;flex-direction:column;gap:0;min-height:52px;padding:8px 10px}
+.barra .btn small{font-size:10px;letter-spacing:.06em;text-transform:none;font-weight:500;opacity:.9}
+.barra .wa{flex:0 0 52px;height:52px;background:var(--carvao);display:flex;align-items:center;justify-content:center;border-radius:2px}
+.barra .wa svg{width:24px;height:24px;fill:#fff}
+@media (min-width:900px){.barra{display:none}}
+
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="icone" viewBox="0 0 253.4 253.8"><path d="M0 116.1C0 52 52 0 116.1 0C116.1 64.1 64.1 116.1 0 116.1ZM137.2 0C137.2 64.1 189.2 116.1 253.3 116.1C253.3 52 201.4 0 137.2 0ZM0 137.6C0 201.8 52 253.8 116.1 253.8C116.1 189.6 64.1 137.6 0 137.6ZM137.2 253.8C137.2 189.6 189.2 137.6 253.3 137.6C253.3 201.8 201.4 253.8 137.2 253.8ZM75.7 126.9C109.1 148.7 126.7 177.9 126.7 177.9C126.7 177.9 146.1 146.3 177.7 126.9C146.1 107.5 126.7 75.9 126.7 75.9C126.7 75.9 109.1 105.1 75.7 126.9Z"/></symbol>
+  <symbol id="whats" viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.42.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29z"/></symbol>
+</svg>
+
+<div class="faixa">Atacado · Fabricação própria · Envios para todo o Brasil</div>
+
+<div class="topo-logo">
+  <span class="logo" role="img" aria-label="Rosana Bijoux">
+    <svg aria-hidden="true"><use href="#icone"/></svg>
+    <span aria-hidden="true"><b>ROSANA</b><small>BIJOUX</small></span>
+  </span>
+</div>
+
+<main>
+<!-- ── 1 · topo e prêmios ── -->
+<header class="hero">
+  <svg class="hero-padrao" viewBox="0 0 253.4 253.8" aria-hidden="true"><use href="#icone"/></svg>
+  <div class="hero-grid">
+    <div class="arco">
+      <picture>
+        <source type="image/webp" srcset="modelo-480.webp 480w, modelo-800.webp 800w" sizes="(min-width: 900px) 360px, 260px">
+        <img src="modelo-640.jpg" width="640" height="801" alt="Modelo usando brinco gota dourado, colar e bracelete da Rosana Bijoux" fetchpriority="high">
+      </picture>
+    </div>
+    <div class="hero-texto">
+      <div class="caps eyebrow">Sorteio especial</div>
+      <h1 class="serif">Black Friday</h1>
+      <p class="sub">Cadastre-se e entre no grupo VIP para concorrer a vale-compras na Rosana Bijoux.</p>
+      <div class="premios">
+        <div class="premio p1"><div class="caps">1º lugar</div><div class="valor serif">R$500</div><small>em compras</small></div>
+        <div class="premio"><div class="caps">2º lugar</div><div class="valor serif">R$200</div><small>em compras</small></div>
+      </div>
+      <a class="btn btn-claro" id="cta-topo" href="#participar" data-evento="cta_topo">Quero participar</a>
+      <div class="caps data-sorteio" id="data-sorteio">Data do sorteio: em breve</div>
+    </div>
+  </div>
+</header>
+
+<!-- ── 2 · como participar ── -->
+<section class="bloco" id="participar" aria-labelledby="t-participar">
+  <div class="wrap">
+    <div class="caps eyebrow-escuro">Como participar</div>
+    <h2 class="titulo serif" id="t-participar">Duas etapas obrigatórias</h2>
+    <div class="aviso"><strong>Atenção:</strong> quem não estiver no grupo VIP no dia do sorteio perde o prêmio.</div>
+
+    <div class="etapas">
+      <!-- etapa 1 -->
+      <div class="cartao" id="etapa1">
+        <div class="etapa-topo"><span class="etapa-num" aria-hidden="true">1</span><h3>Faça seu cadastro</h3><span class="feito">✓ Feito</span></div>
+
+        <p class="encerrado">Os cadastros deste sorteio estão encerrados. O resultado sai no grupo VIP.</p>
+
+        <form id="form" novalidate>
+          <div class="campo">
+            <label for="nome">Nome completo</label>
+            <input type="text" id="nome" name="nome" autocomplete="name" maxlength="80" required>
+            <div class="erro-campo" id="erro-nome">Escreva seu nome e sobrenome.</div>
+          </div>
+          <div class="campo">
+            <label for="whatsapp">WhatsApp com DDD</label>
+            <!-- sem maxlength curto: quem cola "+55 11 91234-5678" do perfil do WhatsApp não pode ter o número cortado -->
+            <input type="tel" id="whatsapp" name="whatsapp" autocomplete="tel-national" inputmode="tel" placeholder="(11) 90000-0000" maxlength="30" required>
+            <div class="erro-campo" id="erro-whatsapp">Confira o número: DDD + celular, como (11) 90000-0000.</div>
+          </div>
+          <div class="campo">
+            <label for="email">E-mail</label>
+            <input type="email" id="email" name="email" autocomplete="email" inputmode="email" maxlength="120" required>
+            <div class="erro-campo" id="erro-email">Confira o e-mail.</div>
+          </div>
+          <fieldset class="campo">
+            <legend>Você compra para</legend>
+            <div class="opcoes">
+              <label class="opcao"><input type="radio" name="compra_para" value="uso_proprio" required><span>Uso próprio</span></label>
+              <label class="opcao"><input type="radio" name="compra_para" value="revenda"><span>Revenda</span></label>
+            </div>
+            <div class="erro-campo" id="erro-compra_para">Escolha uma opção.</div>
+          </fieldset>
+          <div class="mel" aria-hidden="true"><label>Não preencha<input type="text" name="site" tabindex="-1" autocomplete="off"></label></div>
+          <label class="aceite">
+            <input type="checkbox" id="aceite" name="aceite" required>
+            <span>Tenho 18 anos ou mais, li e aceito o <a href="regulamento.html" target="_blank">regulamento</a> e autorizo o uso dos meus dados para o sorteio, conforme a <a href="regulamento.html#privacidade" target="_blank">política de privacidade</a> (LGPD).</span>
+          </label>
+          <div class="erro-campo" id="erro-aceite" style="margin:-8px 0 12px">Para participar, marque o aceite.</div>
+          <button type="submit" class="btn btn-principal" id="enviar">Quero me cadastrar</button>
+          <div class="status" id="status" role="status" aria-live="polite"></div>
+        </form>
+
+        <div class="cadastro-ok">
+          <p><strong id="ok-nome" tabindex="-1">Cadastro feito!</strong></p>
+          <p id="ok-texto" style="font-size:14px;color:var(--texto-suave)">Agora falta a etapa 2: entrar no grupo VIP.</p>
+          <button type="button" id="refazer">Não é você? Fazer outro cadastro</button>
+        </div>
+      </div>
+
+      <!-- etapa 2 -->
+      <div class="cartao cartao-escuro etapa2" id="etapa2">
+        <div class="etapa-topo"><span class="etapa-num" aria-hidden="true">2</span><h3>Entre no grupo VIP</h3><span class="feito">✓ Convite aberto</span></div>
+        <p>A data e o resultado do sorteio são anunciados no grupo. Para receber o prêmio, você precisa estar no grupo no dia do sorteio.</p>
+        <a class="btn btn-claro" id="btn-grupo" href="#" target="_blank" rel="noopener">Quero entrar no grupo</a>
+        <div class="caps lembrete">Não saia do grupo até o sorteio</div>
+      </div>
+    </div>
+
+    <!-- confirmação: a página só sabe que o convite do grupo foi ABERTO, não que a pessoa entrou -->
+    <div class="confirmacao" id="confirmacao" tabindex="-1" aria-labelledby="conf-titulo">
+      <div class="caps eyebrow-escuro">Quase tudo certo</div>
+      <h3 class="serif" id="conf-titulo">Agora é só ficar no grupo</h3>
+      <p><span id="conf-cadastro">Seu cadastro foi feito.</span> <strong>Confira se você entrou no grupo VIP</strong>: se o convite não abriu ou você não confirmou a entrada, toque de novo em “Quero entrar no grupo”. Sem estar no grupo no dia do sorteio, o prêmio não vale.</p>
+      <div class="acoes">
+        <a class="btn btn-principal" id="btn-instagram" href="#" target="_blank" rel="noopener">Seguir no Instagram</a>
+        <button type="button" class="btn btn-contorno" id="btn-compartilhar">Compartilhar com amigas</button>
+      </div>
+      <div class="status" id="status-compartilhar" role="status" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── 3 · avaliações ── -->
+<section class="bloco avaliacoes" aria-labelledby="t-aval">
+  <div class="wrap">
+    <div class="caps eyebrow-escuro">Avaliações</div>
+    <h2 class="titulo serif" id="t-aval">Quem compra, indica</h2>
+    <div class="nota" id="nota" hidden></div>
+    <div class="trilho" id="trilho" hidden></div>
+    <a class="btn btn-contorno" id="btn-google" href="#" target="_blank" rel="noopener">Ver avaliações no Google</a>
+  </div>
+</section>
+
+<!-- ── 4 · perguntas ── -->
+<section class="bloco" aria-labelledby="t-faq">
+  <div class="wrap faq">
+    <div class="caps eyebrow-escuro">Dúvidas e regulamento</div>
+    <h2 class="titulo serif" id="t-faq">Tudo sobre o sorteio</h2>
+    <details><summary>Como participo?</summary><p>São duas etapas, as duas obrigatórias: faça o cadastro nesta página e entre no grupo VIP do WhatsApp. Pronto, você está concorrendo.</p></details>
+    <details><summary>Quais são os prêmios?</summary><p>1º lugar: R$500 em compras na Rosana Bijoux. 2º lugar: R$200 em compras. Os vales são usados na loja, nas condições do <a href="regulamento.html" target="_blank">regulamento</a>.</p></details>
+    <details><summary>Quando é o sorteio?</summary><p id="faq-data">A data ainda vai ser anunciada no grupo VIP e aqui nesta página.</p></details>
+    <details><summary>E se eu sair do grupo VIP?</summary><p>Quem não estiver no grupo no dia do sorteio perde o prêmio, e um novo nome é sorteado. Fique no grupo até o resultado.</p></details>
+    <details><summary>Como sei se ganhei?</summary><p>O resultado é anunciado no grupo VIP, e a gente também fala com a ganhadora pelo WhatsApp cadastrado. Nunca pedimos senha, código ou pagamento para entregar prêmio.</p></details>
+    <details><summary>Posso me cadastrar mais de uma vez?</summary><p>Não. Vale um cadastro por pessoa e por número de WhatsApp. Cadastros repetidos contam uma vez só.</p></details>
+    <details><summary>Preciso comprar para participar?</summary><p>Não. A participação é gratuita e não depende de compra.</p></details>
+  </div>
+</section>
+</main>
+
+<!-- ── rodapé ── -->
+<footer>
+  <div class="wrap">
+    <span class="logo" role="img" aria-label="Rosana Bijoux">
+      <svg aria-hidden="true"><use href="#icone"/></svg>
+      <span aria-hidden="true"><b>ROSANA</b><small>BIJOUX</small></span>
+    </span>
+    <div class="contatos">
+      <a id="rod-whats" href="#" target="_blank" rel="noopener">(11) 95389-4389</a>
+      <a href="https://www.rosanabijoux.com" target="_blank" rel="noopener">www.rosanabijoux.com</a>
+      <a id="rod-insta" href="#" target="_blank" rel="noopener">@rosanabijoux</a>
+    </div>
+    <div class="legais">
+      <a href="regulamento.html" target="_blank">Regulamento do sorteio</a>
+      <a href="regulamento.html#privacidade" target="_blank">Política de privacidade</a>
+      <a href="https://www.rosanabijoux.com/politica-de-reembolso/" target="_blank" rel="noopener">Trocas e devoluções</a>
+    </div>
+    <div class="empresa" id="empresa">Rosana Bijoux</div>
+  </div>
+</footer>
+
+<!-- ── barra fixa (celular) ── -->
+<div class="barra" id="barra">
+  <a class="btn btn-principal" id="barra-cta" href="#participar"><span id="barra-texto">Quero participar</span><small id="barra-sub">R$500 e R$200 em compras</small></a>
+  <a class="wa" id="barra-wa" href="#" target="_blank" rel="noopener" aria-label="Falar com a Rosana Bijoux no WhatsApp"><svg aria-hidden="true"><use href="#whats"/></svg></a>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════════════════════════
+   CONFIGURAÇÃO — o que muda de um sorteio para outro fica só aqui.
+   ════════════════════════════════════════════════════════════════════ */
+const CONFIG = {
+  // Identifica ESTE sorteio: separa o que o aparelho lembra (cadastro feito,
+  // grupo aberto) de um sorteio para o outro, e vai como utm_campaign no
+  // link compartilhado. Trocar a cada sorteio novo.
+  ID_SORTEIO: 'sorteio-bf-2026',
+
+  // URL do Apps Script publicado (ver LEIA-ME.md). Vazia = o formulário NÃO
+  // finge que deu certo: avisa que o cadastro ainda não está aberto.
+  PLANILHA_URL: '',
+
+  GRUPO_VIP: 'https://chat.whatsapp.com/EFNLI48TjysFedIUmVQ0i5',
+  WHATSAPP: '5511953894389',
+  INSTAGRAM: 'rosanabijoux',
+  GOOGLE_MAPS: 'https://maps.app.goo.gl/hiXe4PuMstydgjd17',
+
+  // Datas com o fuso de Brasília. null = "em breve" / cadastro aberto.
+  // Exemplo: '2026-11-28T20:00:00-03:00'
+  DATA_SORTEIO: null,
+  // Fim dos cadastros. null = vale a DATA_SORTEIO. Tem que ser igual ao
+  // FIM_CADASTROS do apps-script.gs (o servidor também recusa depois dela).
+  FIM_CADASTROS: null,
+
+  RAZAO_SOCIAL: '',   // ex.: 'Rosana Bijoux Comércio de Acessórios Ltda.'
+  CNPJ: '',           // ex.: '00.000.000/0001-00'
+
+  // Rastreamento: vazio = não carrega nada. Ao ligar, conferir o §9 do regulamento.
+  META_PIXEL_ID: '',
+  GA4_ID: '',
+
+  // Avaliações REAIS copiadas do Google (primeiro nome + inicial). Vazio = só o botão.
+  NOTA_GOOGLE: '',          // ex.: '4,9'
+  TOTAL_AVALIACOES: '',     // ex.: '132'
+  AVALIACOES: [
+    // { texto: 'As peças são delicadas...', nome: 'Carla A.' },
+  ],
+
+  TEXTO_WHATSAPP: 'Oi! Vim pela página do sorteio de Black Friday 💎',
+  TEXTO_COMPARTILHAR: 'Tô participando do sorteio de Black Friday da Rosana Bijoux: R$500 e R$200 em compras! Participa também:',
+  TITULO_COMPARTILHAR: 'Sorteio Black Friday · Rosana Bijoux',
+
+  // Vai junto com o cadastro, para saber qual regulamento a pessoa aceitou.
+  // Mudou o texto do regulamento? Mude esta versão (e a data no rodapé dele).
+  VERSAO_REGULAMENTO: '2026-10-12',
+};
+
+/* ════════════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+  const $ = (id) => document.getElementById(id);
+  // folga sobre os 10 s que o script espera pela trava + partida a frio do Apps Script
+  const TEMPO_LIMITE_MS = 30000;
+  // 'encerrado' dito pelo servidor vale só nesta visita: se a data do script
+  // estava errada e for corrigida, quem volta encontra o formulário aberto
+  let encerradoNoServidor = false;
+
+  // ── estado guardado no aparelho (some sem quebrar nada se o navegador bloquear) ──
+  //   cadastrado     — a planilha respondeu ok ao cadastro
+  //   grupo          — tocou no convite do grupo
+  //   grupoEnviado   — a planilha registrou esse toque (se falhar, reenvia depois)
+  const CHAVE = CONFIG.ID_SORTEIO;
+  const estado = carregar();
+  function carregar() {
+    try { return JSON.parse(localStorage.getItem(CHAVE)) || {}; } catch (e) { return {}; }
+  }
+  function salvar() {
+    try { localStorage.setItem(CHAVE, JSON.stringify(estado)); } catch (e) { /* aba anônima */ }
+  }
+
+  // ── UTM e origem, enviados com o cadastro ──
+  const params = new URLSearchParams(location.search);
+  const origem = {};
+  ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach((k) => {
+    const v = params.get(k);
+    if (v) origem[k] = v.slice(0, 100);
+  });
+  if (Object.keys(origem).length) { estado.origem = origem; salvar(); }
+
+  // ── links que vêm da configuração ──
+  const linkWhats = 'https://wa.me/' + CONFIG.WHATSAPP + '?text=' + encodeURIComponent(CONFIG.TEXTO_WHATSAPP);
+  $('btn-grupo').href = CONFIG.GRUPO_VIP;
+  $('btn-instagram').href = 'https://instagram.com/' + CONFIG.INSTAGRAM;
+  $('rod-insta').href = 'https://instagram.com/' + CONFIG.INSTAGRAM;
+  $('rod-whats').href = linkWhats;
+  $('barra-wa').href = linkWhats;
+  $('btn-google').href = CONFIG.GOOGLE_MAPS;
+  $('empresa').textContent = [CONFIG.RAZAO_SOCIAL || 'Rosana Bijoux', CONFIG.CNPJ && ('CNPJ ' + CONFIG.CNPJ)]
+    .filter(Boolean).join(' · ');
+
+  // ── rastreamento (só se houver ID) ──
+  if (CONFIG.META_PIXEL_ID) {
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;
+    s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', CONFIG.META_PIXEL_ID); fbq('track', 'PageView');
+  }
+  if (CONFIG.GA4_ID) {
+    const s = document.createElement('script');
+    s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(CONFIG.GA4_ID);
+    document.head.appendChild(s);
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    gtag('js', new Date()); gtag('config', CONFIG.GA4_ID);
+  }
+  function evento(nome, extra) {
+    try {
+      if (window.fbq) {
+        if (nome === 'cadastro') fbq('track', 'Lead');
+        else fbq('trackCustom', nome);
+      }
+      if (window.gtag) gtag('event', nome === 'cadastro' ? 'generate_lead' : nome, extra || {});
+    } catch (e) { /* rastreamento nunca derruba a página */ }
+  }
+  document.querySelectorAll('[data-evento]').forEach((el) =>
+    el.addEventListener('click', () => evento(el.dataset.evento)));
+
+  // ── datas: sorteio e fim dos cadastros ──
+  const dataOuNull = (v) => { const d = v ? new Date(v) : null; return d && !isNaN(d) ? d : null; };
+  const sorteio = dataOuNull(CONFIG.DATA_SORTEIO);
+  const fim = dataOuNull(CONFIG.FIM_CADASTROS) || sorteio;
+  const encerrado = () => !!fim && Date.now() >= fim.getTime();
+  if (sorteio) {
+    const fmt = sorteio.toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).replace(',', ' às');
+    $('faq-data').textContent = 'O sorteio é em ' + fmt + ' (horário de Brasília), com resultado anunciado no grupo VIP.';
+    const tick = () => {
+      const falta = sorteio - Date.now();
+      if (falta <= 0) { $('data-sorteio').textContent = 'Sorteio encerrado · resultado no grupo VIP'; atualizar(); return false; }
+      const d = Math.floor(falta / 864e5), h = Math.floor(falta / 36e5) % 24, m = Math.floor(falta / 6e4) % 60;
+      $('data-sorteio').innerHTML = 'Sorteio em ' + fmt +
+        ' <span class="contador"><span><b>' + d + '</b>d</span><span><b>' + h + '</b>h</span><span><b>' + m + '</b>min</span></span>';
+      if (!estado.cadastrado && !encerrado()) $('barra-sub').textContent = 'Faltam ' + d + 'd ' + h + 'h · R$500 e R$200';
+      if (encerrado()) atualizar();
+      return true;
+    };
+    // o primeiro tick espera o resto do script montar os elementos e o estado
+    setTimeout(() => { if (tick()) setInterval(tick, 30000); }, 0);
+  }
+
+  // ── avaliações ──
+  if (CONFIG.AVALIACOES.length) {
+    const trilho = $('trilho');
+    CONFIG.AVALIACOES.forEach((a) => {
+      const fig = document.createElement('figure');
+      fig.className = 'depo';
+      const q = document.createElement('blockquote'); q.textContent = a.texto;
+      const c = document.createElement('figcaption'); c.textContent = a.nome;
+      fig.append(q, c); trilho.appendChild(fig);
+    });
+    trilho.hidden = false;
+  }
+  if (CONFIG.NOTA_GOOGLE) {
+    const n = $('nota');
+    n.innerHTML = '<span class="serif"></span><span><span class="estrelas" aria-hidden="true">★★★★★</span><br><small></small></span>';
+    n.querySelector('.serif').textContent = CONFIG.NOTA_GOOGLE;
+    n.querySelector('small').textContent = CONFIG.TOTAL_AVALIACOES
+      ? CONFIG.TOTAL_AVALIACOES + ' avaliações no Google' : 'Avaliações no Google';
+    n.hidden = false;
+  }
+
+  // ── WhatsApp: aceita digitado e colado ("+55 11 91234-5678", "(11)91234-5678") ──
+  const whats = $('whatsapp');
+  function digitosDoWhats(v) {
+    let d = v.replace(/\D/g, '');
+    // código do país só quando o número vem completo com ele (12 ou 13 dígitos),
+    // para não comer o DDD 55 (RS) de quem está digitando
+    if (/^55\d{10,11}$/.test(d)) d = d.slice(2);
+    return d.slice(0, 11);
+  }
+  whats.addEventListener('input', () => {
+    const d = digitosDoWhats(whats.value);
+    let v = d;
+    if (d.length > 2) v = '(' + d.slice(0, 2) + ') ' + d.slice(2);
+    if (d.length > 6) v = '(' + d.slice(0, 2) + ') ' + d.slice(2, d.length - 4) + '-' + d.slice(-4);
+    whats.value = v;
+  });
+
+  // ── validação (o apps-script.gs repete as mesmas regras) ──
+  const form = $('form');
+  const regras = {
+    nome: () => /\S+\s+\S+/.test(form.nome.value.trim()),
+    // DDD (11–99) + celular com 9 na frente, ou fixo de 8 dígitos
+    whatsapp: () => /^[1-9][1-9](9\d{8}|[2-5]\d{7})$/.test(digitosDoWhats(whats.value)),
+    email: () => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.value.trim()),
+    compra_para: () => !!form.querySelector('input[name=compra_para]:checked'),
+    aceite: () => form.aceite.checked,
+  };
+  // A mensagem de erro só fica ligada ao campo enquanto vale: texto escondido
+  // apontado por aria-describedby ainda é lido pelo leitor de tela.
+  function marca(campo, ok) {
+    $('erro-' + campo).classList.toggle('mostra', !ok);
+    const el = campo === 'compra_para' ? form.querySelector('fieldset.campo') : form[campo];
+    if (campo !== 'compra_para') el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+    if (ok) el.removeAttribute('aria-describedby');
+    else el.setAttribute('aria-describedby', 'erro-' + campo);
+    return ok;
+  }
+  Object.keys(regras).forEach((c) => {
+    const els = c === 'compra_para' ? form.querySelectorAll('input[name=compra_para]') : [form[c]];
+    els.forEach((el) => el.addEventListener(c === 'aceite' || c === 'compra_para' ? 'change' : 'blur', () => {
+      if (c === 'aceite' || c === 'compra_para' || el.value) marca(c, regras[c]());
+    }));
+  });
+
+  // ── conversa com a planilha: só é "ok" se ela responder ok ──
+  async function postar(dados, opcoes) {
+    const ctrl = new AbortController();
+    const t = setTimeout(() => ctrl.abort(), TEMPO_LIMITE_MS);
+    try {
+      // text/plain = requisição simples, sem preflight (o Apps Script não
+      // responde OPTIONS); a resposta vem com CORS liberado e dá para lê-la.
+      const r = await fetch(CONFIG.PLANILHA_URL, Object.assign({
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(dados),
+        signal: ctrl.signal,
+      }, opcoes || {}));
+      return await r.json();
+    } finally {
+      clearTimeout(t);
+    }
+  }
+  const MOTIVOS = {
+    encerrado: 'Os cadastros deste sorteio já foram encerrados.',
+    ocupado: 'Muita gente se cadastrando agora. Espere alguns segundos e toque de novo em “Quero me cadastrar”.',
+  };
+
+  // ── envio do cadastro ──
+  const status = $('status');
+  const enviar = $('enviar');
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.textContent = ''; status.className = 'status';
+    let primeiroErro = null;
+    Object.keys(regras).forEach((c) => {
+      const ok = marca(c, regras[c]());
+      if (!ok && !primeiroErro) primeiroErro = c;
+    });
+    if (primeiroErro) {
+      const alvoErro = primeiroErro === 'compra_para' ? form.querySelector('input[name=compra_para]') : form[primeiroErro];
+      alvoErro.focus();
+      return;
+    }
+    if (form.site.value) { // campo escondido: robô (ou preenchimento automático estranho)
+      status.className = 'status erro';
+      status.textContent = 'Não conseguimos enviar. Recarregue a página e tente de novo.';
+      return;
+    }
+    if (encerrado()) { atualizar(); return; }
+    if (!CONFIG.PLANILHA_URL) {
+      status.className = 'status erro';
+      status.textContent = 'O cadastro ainda não está aberto. Volte em breve!';
+      return;
+    }
+
+    const dados = {
+      acao: 'cadastro',
+      nome: form.nome.value.trim().replace(/\s+/g, ' '),
+      whatsapp: digitosDoWhats(whats.value),
+      email: form.email.value.trim().toLowerCase(),
+      compra_para: form.querySelector('input[name=compra_para]:checked').value,
+      aceite_regulamento: CONFIG.VERSAO_REGULAMENTO,
+      origem: estado.origem || {},
+      pagina: location.href.split('#')[0],
+    };
+
+    enviar.disabled = true; enviar.textContent = 'Enviando…';
+    let resp;
+    try {
+      resp = await postar(dados);
+    } catch (err) {
+      status.className = 'status erro';
+      status.textContent = err && err.name === 'AbortError'
+        ? 'A conexão está lenta e o cadastro não foi confirmado. Toque de novo em “Quero me cadastrar”.'
+        : 'Não conseguimos registrar agora. Confira a internet e tente de novo — se continuar, chame a gente no WhatsApp.';
+      return;
+    } finally {
+      enviar.disabled = false; enviar.textContent = 'Quero me cadastrar';
+    }
+
+    if (!resp || resp.ok !== true) {
+      status.className = 'status erro';
+      status.textContent = (resp && MOTIVOS[resp.erro]) ||
+        'Não conseguimos registrar seu cadastro. Confira os dados e tente de novo — se continuar, chame a gente no WhatsApp.';
+      if (resp && resp.erro === 'encerrado') { encerradoNoServidor = true; atualizar(); }
+      return;
+    }
+
+    estado.cadastrado = true;
+    estado.whatsapp = dados.whatsapp;
+    if (resp.duplicado) {
+      // o número já estava na planilha (antes, por esta pessoa ou não): nada
+      // foi gravado agora, então não dizemos que foi, e não conta como lead
+      estado.nome = '';
+      estado.duplicado = true;
+    } else {
+      estado.nome = dados.nome.split(' ')[0];
+      estado.duplicado = false;
+      evento('cadastro');
+    }
+    salvar();
+    enviarGrupoPendente();
+    atualizar();
+    $('ok-nome').focus();
+  });
+
+  $('refazer').addEventListener('click', () => {
+    ['cadastrado', 'nome', 'whatsapp', 'grupo', 'grupoEnviado', 'duplicado'].forEach((k) => delete estado[k]);
+    salvar(); form.reset(); atualizar(); form.nome.focus();
+  });
+
+  // ── etapa 2: toque no convite do grupo ──
+  // O link abre o grupo sozinho; aqui só se registra o toque.
+  $('btn-grupo').addEventListener('click', marcarGrupo);
+  function marcarGrupo() {
+    if (!estado.grupo) evento('entrou_grupo_vip');
+    estado.grupo = true; salvar();
+    enviarGrupoPendente();
+    setTimeout(() => atualizar(true), 400);
+  }
+  // Registra na planilha o toque no grupo. Só some da fila quando a planilha
+  // confirma — toque antes do cadastro, ou envio que falhou, sai depois.
+  let enviandoGrupo = false;
+  function enviarGrupoPendente() {
+    if (enviandoGrupo || !CONFIG.PLANILHA_URL || !estado.cadastrado || !estado.grupo || estado.grupoEnviado || !estado.whatsapp) return;
+    enviandoGrupo = true;
+    postar({ acao: 'grupo', whatsapp: estado.whatsapp }, { keepalive: true })
+      .then((r) => { if (r && r.ok === true) { estado.grupoEnviado = true; salvar(); } })
+      .catch(() => {})
+      .finally(() => { enviandoGrupo = false; });
+  }
+
+  // ── compartilhar ──
+  $('btn-compartilhar').addEventListener('click', async () => {
+    const url = location.origin + location.pathname + '?utm_source=indicacao&utm_medium=compartilhar&utm_campaign=' + encodeURIComponent(CONFIG.ID_SORTEIO);
+    const texto = CONFIG.TEXTO_COMPARTILHAR;
+    evento('compartilhar');
+    try {
+      if (navigator.share) { await navigator.share({ title: CONFIG.TITULO_COMPARTILHAR, text: texto, url }); return; }
+      await navigator.clipboard.writeText(texto + ' ' + url);
+      $('status-compartilhar').textContent = 'Link copiado! É só colar no WhatsApp ou no Instagram.';
+    } catch (e) {
+      if (e && e.name === 'AbortError') return;
+      window.open('https://wa.me/?text=' + encodeURIComponent(texto + ' ' + url), '_blank', 'noopener');
+    }
+  });
+
+  // ── tela conforme o estado ──
+  // rolar = a confirmação acabou de aparecer por um toque (não ao abrir a página)
+  function atualizar(rolar) {
+    const fechado = encerrado() || encerradoNoServidor;
+    $('conf-cadastro').textContent = estado.duplicado ? 'Esse WhatsApp já estava cadastrado.' : 'Seu cadastro foi feito.';
+    const g = !!estado.grupo;
+    $('etapa1').classList.toggle('fechado', fechado && !estado.cadastrado);
+    $('etapa1').classList.toggle('is-feito', !!estado.cadastrado);
+    $('etapa2').classList.toggle('is-feito', !!estado.cadastrado && g);
+    if (estado.cadastrado) {
+      if (estado.duplicado) {
+        $('ok-nome').textContent = 'Esse WhatsApp já está cadastrado no sorteio.';
+        $('ok-texto').textContent = 'Se foi você, é só garantir a etapa 2: estar no grupo VIP. Se não foi você, chame a gente no WhatsApp.';
+      } else {
+        $('ok-nome').textContent = 'Cadastro feito, ' + estado.nome + '!';
+        $('ok-texto').textContent = 'Agora falta a etapa 2: entrar no grupo VIP.';
+      }
+    }
+    $('etapa2').classList.toggle('espera', !estado.cadastrado);
+    const conf = $('confirmacao');
+    const mostrava = conf.classList.contains('mostra');
+    const mostra = !!estado.cadastrado && g;
+    conf.classList.toggle('mostra', mostra);
+    if (mostra && !mostrava && rolar === true && document.visibilityState === 'visible') {
+      conf.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      conf.focus({ preventScroll: true });
+    }
+
+    // barra fixa e botão do topo acompanham a próxima etapa
+    const cta = $('barra-cta');
+    const sub = $('barra-sub');
+    if (fechado && !estado.cadastrado) {
+      $('barra-texto').textContent = 'Cadastros encerrados';
+      sub.textContent = 'Resultado no grupo VIP';
+      cta.href = '#participar'; cta.removeAttribute('target');
+      $('cta-topo').textContent = 'Ver como foi';
+    } else if (!estado.cadastrado) {
+      $('barra-texto').textContent = 'Quero participar';
+      sub.textContent = 'R$500 e R$200 em compras';
+      cta.href = '#participar'; cta.removeAttribute('target');
+    } else if (!g) {
+      $('barra-texto').textContent = 'Entrar no grupo VIP';
+      sub.textContent = 'Etapa 2 de 2 · obrigatória';
+      cta.href = CONFIG.GRUPO_VIP; cta.target = '_blank'; cta.rel = 'noopener';
+    } else {
+      $('barra-texto').textContent = 'Fique no grupo VIP';
+      sub.textContent = 'Compartilhe com as amigas';
+      cta.href = '#confirmacao'; cta.removeAttribute('target');
+    }
+  }
+  $('barra-cta').addEventListener('click', () => {
+    if (estado.cadastrado && !estado.grupo) marcarGrupo();
+  });
+  // quem volta do WhatsApp para a aba vê a confirmação na hora
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') { atualizar(true); enviarGrupoPendente(); }
+  });
+  atualizar();
+  enviarGrupoPendente(); // toque no grupo que ficou sem registro numa visita anterior
+
+  // ── barra some enquanto o formulário está na tela (não cobre o botão) ──
+  if ('IntersectionObserver' in window) {
+    const barra = $('barra');
+    new IntersectionObserver((ents) => {
+      ents.forEach((en) => barra.classList.toggle('some', en.isIntersecting && !estado.cadastrado));
+    }, { threshold: 0.25 }).observe(form);
+  }
+})();
+</script>
+</body>
+</html>
