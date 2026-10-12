@@ -31,8 +31,6 @@ e não finge que gravou.
 
 ## 2. Antes de divulgar
 
-- [ ] **Autorização do sorteio.** Promoção comercial por sorteio precisa de autorização prévia do
-      Ministério da Fazenda (Lei 5.768/71), mesmo gratuita. Validar com advogado ou empresa de promoções.
 - [ ] `regulamento.html`: preencher os trechos em destaque e apagar o aviso de minuta.
 - [ ] `CONFIG`: `RAZAO_SOCIAL`, `CNPJ`, `DATA_SORTEIO` (ou deixar `null` = "em breve").
 - [ ] Fim dos cadastros: `FIM_CADASTROS` no `CONFIG` **e** no `apps-script.gs` (a mesma data; se a página
