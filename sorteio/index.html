@@ -174,7 +174,7 @@ fieldset.campo{border:0;margin:0 0 14px;padding:0;min-width:0}
 .estrelas{color:var(--terracota);letter-spacing:2px;font-size:14px}
 .trilho{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;margin:0 -20px 18px;padding-left:20px;padding-right:20px;scroll-padding:0 20px;scrollbar-width:thin}
 .depo{flex:0 0 78%;max-width:320px;scroll-snap-align:start;background:var(--nevoa);padding:20px 18px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;margin:0}
-.depo img{width:calc(100% + 36px);margin:-20px -18px 0;aspect-ratio:1/1;height:auto;object-fit:cover}
+.depo img{width:calc(100% + 36px);max-width:none;margin:-20px -18px 0;aspect-ratio:4/3;height:auto;object-fit:cover;object-position:50% 30%}
 .depo blockquote{margin:0;font-size:14px;line-height:1.55}
 .depo blockquote.corta{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:7;line-clamp:7;overflow:hidden}
 .depo .ler{align-self:flex-start;background:none;border:0;padding:0;margin-top:-8px;color:var(--terracota);font-size:13px;font-weight:600;text-decoration:underline}
@@ -432,18 +432,22 @@ const CONFIG = {
     // { texto: 'As peças são delicadas...', nome: 'Carla A.', data: 'out/2026', foto: 'avaliacoes/carla.webp' },
     {
       nome: 'Amanda G.',
+      foto: 'avaliacoes/amanda.webp',
       texto: 'Sou cliente mais ou menos há 6 anos.. compro de vários fornecedores, pois cada um tem o seu diferencial, porém a Rosana é a única em que eu preciso fazer pedido todo mês, a qualidade, o preço e a agilidade em que chega o pedido, é surreal. Eu amo e não deixo de comprar nunca, fora que sempre estão inovando nas peças. Então se você está pensando em começar um negocio e não sabe por onde, vai no certo, Rosana Bijoux, peças fáceis de revender e com lucros ótimos, fora a qualidade das bijus!!!',
     },
     {
       nome: 'Fernanda A.',
+      foto: 'avaliacoes/fernanda.webp',
       texto: 'Estou encantada com o excelente atendimento, entrega super rápida e produtos lindíssimos! A embalagem é surpreendente, tudo separado com cuidado! Empresa recomendadíssima!',
     },
     {
       nome: 'Wilseleia S.',
+      foto: 'avaliacoes/wilseleia.webp',
       texto: 'Gostei bastante das joias que comprei! As peças são delicadas, bem detalhadas e combinam com vários looks, desde os mais simples até os mais arrumados. O acabamento é muito bom e aparenta ser um produto de qualidade. A entrega foi rápida e tudo veio certinho. Foi uma compra que valeu a pena! 💖',
     },
     {
       nome: 'Kimberlly S.',
+      foto: 'avaliacoes/kimberlly.webp',
       texto: 'Sempre compro para revender em minha loja @estacaofeminina23. Aliás comecei no ramo de acessórios com a Rosana. Recomendo a todos, equipe abençoada e sempre pronta para nos ajudar. Nunca tive problema com eles. Deus abençoe e prospere.',
     },
   ],
@@ -558,7 +562,7 @@ const CONFIG = {
       if (a.foto) {
         const img = document.createElement('img');
         img.src = a.foto; img.loading = 'lazy'; img.decoding = 'async';
-        img.alt = 'Foto enviada por ' + a.nome + ' na avaliação';
+        img.alt = 'Peças da Rosana Bijoux';
         img.width = 320; img.height = 320;
         fig.appendChild(img);
       }
