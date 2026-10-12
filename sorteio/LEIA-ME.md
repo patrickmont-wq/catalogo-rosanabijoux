@@ -61,4 +61,51 @@ As UTMs vão para a planilha junto com o cadastro.
 ## Sobre o "entrou no grupo"
 
 A página só sabe que a pessoa **clicou** no botão do grupo (coluna "Clicou no grupo VIP em").
-Quem de fato está no grupo se confere no WhatsApp, no dia do sorteio.
+Quem de fato está no grupo se confere no dia do sorteio — ver a seção abaixo.
+
+## No dia do sorteio: conferir quem está nos grupos VIP
+
+O script da planilha lê, pela Evolution, todos os grupos que têm **"VIP" no nome** e marca em cada cadastro
+se a pessoa está em algum deles. Grupo VIP novo entra sozinho, desde que tenha "VIP" no nome.
+
+**Uma vez só (atualizar o script):** na planilha, Extensões → Apps Script → apague tudo, cole o `apps-script.gs`
+novo e salve. Não precisa reimplantar o app da Web; o formulário continua igual. Recarregue a planilha: aparece
+o menu **Sorteio**.
+
+**No dia, depois de fechar as inscrições:**
+
+1. **Conecte o WhatsApp que está nos grupos VIP** no gerenciador da Evolution (Evolution Manager → nova
+   instância → ler o QR code). Use uma instância SEPARADA, sem webhook — não a do Agente Disparo, senão as
+   suas conversas pessoais entram no Inbox.
+2. Na planilha: **Sorteio → Configurar Evolution** e informe o endereço da Evolution (com `https://`), o nome
+   da instância, o **token dessa instância** (nunca a chave global da Evolution) e o filtro (`VIP`). Faça isso
+   sem compartilhar a tela: o que você digita aparece. A chave não fica na planilha, mas **qualquer editor da
+   planilha consegue vê-la** no Apps Script — por isso o passo 5.
+   Na primeira vez o Google pede uma autorização nova (acesso a serviço externo): é o script falando com a
+   Evolution.
+3. **Sorteio → Conferir grupos VIP.** Ele lê os grupos e **mostra a lista com quantos membros cada um tem
+   antes de gravar**. Se aparecer um grupo que não é do sorteio (um VIP antigo, por exemplo), responda Não e
+   use um filtro mais específico em Configurar Evolution (ex.: `VIP Rosana`). Evite renomear grupo: o
+   WhatsApp avisa todos os membros. Responda a confirmação logo: se a janela sumir (o Google corta a execução
+   em 6 minutos), nada foi gravado — é só rodar de novo. Confirmando, aparece:
+   - na aba **Cadastros**, as colunas **"Está no grupo VIP?"** (SIM/NÃO, com a hora da conferência) e
+     **"Grupos VIP"** (em quais);
+   - a aba **Membros VIP**, com todo mundo que está nos grupos.
+   Com muitos grupos grandes leva alguns segundos a mais.
+4. **A conferência que vale é uma só, feita antes do primeiro sorteio** — anote a hora que aparece no título da
+   coluna "Está no grupo VIP?". Não rode de novo no meio do sorteio (mudaria o SIM de quem já foi sorteada).
+   Sorteie no Google entre 2 e a última linha. Se a linha sorteada estiver com **NÃO** ou com a coluna **em
+   branco** (cadastro que entrou depois da conferência), ela não vale: sorteie de novo.
+5. Ao terminar: **Sorteio → Esquecer chave da Evolution**, e desconecte e apague a instância na Evolution.
+
+Se os cadastros ainda estiverem abertos (`FIM_CADASTROS` vazio ou no futuro), a conferência avisa e pergunta
+se é um teste.
+
+Se alguma resposta da Evolution vier estranha (formato diferente, grupo sem ninguém, página em vez de dados), a
+conferência **para sem gravar nada** e diz o motivo — melhor do que marcar NÃO em quem está no grupo.
+
+**Se o aviso disser "participantes SEM número":** o WhatsApp esconde o número de parte dos membros em alguns
+grupos (o "LID"). Esses não dá para cruzar automaticamente; se a sorteada estiver com NÃO, procure o número
+dela à mão no grupo (Dados do grupo → lupa → últimos 4 dígitos) antes de sortear de novo.
+
+**Teste antes do dia:** rode a conferência uma vez com poucos cadastros para ver se os números vêm.
