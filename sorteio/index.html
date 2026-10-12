@@ -172,11 +172,12 @@ fieldset.campo{border:0;margin:0 0 14px;padding:0;min-width:0}
 .nota .serif{font-size:40px}
 .nota small{font-size:12px;color:var(--texto-suave)}
 .estrelas{color:var(--terracota);letter-spacing:2px;font-size:14px}
-.trilho{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;margin:0 -20px 18px;padding-left:20px;padding-right:20px;scrollbar-width:thin}
+.trilho{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:10px;margin:0 -20px 18px;padding-left:20px;padding-right:20px;scroll-padding:0 20px;scrollbar-width:thin}
 .depo{flex:0 0 78%;max-width:320px;scroll-snap-align:start;background:var(--nevoa);padding:20px 18px;display:flex;flex-direction:column;justify-content:space-between;gap:16px;margin:0}
-.depo blockquote{margin:0;font-size:14px;line-height:1.55}
+.depo img{width:calc(100% + 36px);margin:-20px -18px 0;aspect-ratio:1/1;height:auto;object-fit:cover}
+.depo blockquote{margin:0;font-size:14px;line-height:1.55;flex:1}
 .depo figcaption{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--texto-suave);font-weight:600}
-@media (min-width:900px){.trilho{margin:0 0 18px;padding-left:0;padding-right:0}.depo{flex-basis:300px}}
+@media (min-width:900px){.trilho{margin:0 0 18px;padding-left:0;padding-right:0;scroll-padding:0}.depo{flex-basis:300px}}
 .avaliacoes .btn-contorno{max-width:420px;margin:0 auto}
 
 /* ── perguntas ── */
@@ -423,7 +424,9 @@ const CONFIG = {
   NOTA_GOOGLE: '',          // ex.: '4,9'
   TOTAL_AVALIACOES: '',     // ex.: '132'
   AVALIACOES: [
-    // { texto: 'As peças são delicadas...', nome: 'Carla A.' },
+    // Na ordem em que aparecem (mais recente primeiro). foto e data são opcionais;
+    // a foto fica em sorteio/avaliacoes/.
+    // { texto: 'As peças são delicadas...', nome: 'Carla A.', data: 'out/2026', foto: 'avaliacoes/carla.webp' },
   ],
 
   TEXTO_WHATSAPP: 'Oi! Vim pela página do sorteio de Black Friday 💎',
@@ -533,9 +536,18 @@ const CONFIG = {
     CONFIG.AVALIACOES.forEach((a) => {
       const fig = document.createElement('figure');
       fig.className = 'depo';
+      if (a.foto) {
+        const img = document.createElement('img');
+        img.src = a.foto; img.loading = 'lazy'; img.decoding = 'async';
+        img.alt = 'Foto enviada por ' + a.nome + ' na avaliação';
+        img.width = 320; img.height = 320;
+        fig.appendChild(img);
+      }
+      const est = document.createElement('div'); est.className = 'estrelas'; est.textContent = '★★★★★';
+      est.setAttribute('role', 'img'); est.setAttribute('aria-label', '5 estrelas');
       const q = document.createElement('blockquote'); q.textContent = a.texto;
-      const c = document.createElement('figcaption'); c.textContent = a.nome;
-      fig.append(q, c); trilho.appendChild(fig);
+      const c = document.createElement('figcaption'); c.textContent = a.data ? a.nome + ' · ' + a.data : a.nome;
+      fig.append(est, q, c); trilho.appendChild(fig);
     });
     trilho.hidden = false;
   }
