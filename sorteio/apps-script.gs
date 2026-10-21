@@ -57,7 +57,7 @@ function doPost(e) {
 }
 
 const USO_PREMIO = { uso_proprio: 'Uso próprio', aumentar_estoque: 'Aumentar meu estoque', comecar_vender: 'Começar a vender' };
-const JA_COMPROU = { nunca: 'Nunca', '1': '1 vez', '2+': '+2 vezes', '10+': '+10 vezes' };
+const JA_COMPROU = { nunca: 'Nunca', '1': '1 vez', '2+': '2 a 9 vezes', '10+': '10 vezes ou mais' };
 const opcao_ = (mapa, v) => Object.prototype.hasOwnProperty.call(mapa, v) ? mapa[v] : null;
 // mesmas regras da página: DDD + celular com 9, ou fixo de 8 dígitos
 const WHATSAPP_VALIDO = /^[1-9][1-9](9\d{8}|[2-5]\d{7})$/;
@@ -97,7 +97,7 @@ function cadastrar_(aba, d) {
     "'" + whatsapp,                 // apóstrofo: a planilha não vira número nem tira o zero
     seguro_(email),
     usoPremio,
-    texto_(jaComprou),              // texto: "1 vez" e "+2 vezes" não podem virar número
+    texto_(jaComprou),              // texto: "1 vez" e "2 a 9 vezes" não podem virar número/data
     texto_(d.aceite_regulamento),
     d.aceite_ofertas ? texto_(d.aceite_ofertas) : '',  // vazio = NÃO aceitou ofertas
     '',
