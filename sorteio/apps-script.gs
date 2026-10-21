@@ -22,12 +22,13 @@ const FIM_CADASTROS = null;
 
 const ABA = 'Cadastros';
 const CABECALHO = [
-  'Data do cadastro', 'Nome', 'WhatsApp', 'E-mail', 'Compra para',
-  'Aceitou regulamento (versão)', 'Clicou no grupo VIP em',
+  'Data do cadastro', 'Nome', 'WhatsApp', 'E-mail',
+  'Se ganhar, vai usar para', 'Já comprou na Rosana',
+  'Aceitou regulamento (versão)', 'Aceitou ofertas (versão)', 'Clicou no grupo VIP em',
   'utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'Página',
 ];
-const COL_WHATS = 3;   // coluna C
-const COL_GRUPO = 7;   // coluna G
+const COL_WHATS = CABECALHO.indexOf('WhatsApp') + 1;                // coluna C
+const COL_GRUPO = CABECALHO.indexOf('Clicou no grupo VIP em') + 1;  // coluna I
 
 function doPost(e) {
   const trava = LockService.getScriptLock();
@@ -55,7 +56,9 @@ function doPost(e) {
   }
 }
 
-const COMPRA_PARA = { uso_proprio: 'Uso próprio', revenda: 'Revenda' };
+const USO_PREMIO = { uso_proprio: 'Uso próprio', aumentar_estoque: 'Aumentar meu estoque', comecar_vender: 'Começar a vender' };
+const JA_COMPROU = { nunca: 'Nunca', '1': '1 vez', '2+': '+2 vezes', '10+': '+10 vezes' };
+const opcao_ = (mapa, v) => Object.prototype.hasOwnProperty.call(mapa, v) ? mapa[v] : null;
 // mesmas regras da página: DDD + celular com 9, ou fixo de 8 dígitos
 const WHATSAPP_VALIDO = /^[1-9][1-9](9\d{8}|[2-5]\d{7})$/;
 
@@ -75,12 +78,14 @@ function cadastrar_(aba, d) {
   const whatsapp = String(d.whatsapp || '').replace(/\D/g, '');
   const nome = String(d.nome || '').trim().replace(/\s+/g, ' ');
   const email = String(d.email || '').trim().toLowerCase();
-  const compraPara = Object.prototype.hasOwnProperty.call(COMPRA_PARA, d.compra_para) ? COMPRA_PARA[d.compra_para] : null;
+  const usoPremio = opcao_(USO_PREMIO, d.uso_premio);
+  const jaComprou = opcao_(JA_COMPROU, d.ja_comprou);
 
   if (!WHATSAPP_VALIDO.test(whatsapp)) return { ok: false, erro: 'whatsapp invalido' };
   if (!/\S+ \S+/.test(nome) || nome.length > 80) return { ok: false, erro: 'nome invalido' };
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email) || email.length > 120) return { ok: false, erro: 'email invalido' };
-  if (!compraPara) return { ok: false, erro: 'compra_para invalido' };
+  if (!usoPremio) return { ok: false, erro: 'uso_premio invalido' };
+  if (!jaComprou) return { ok: false, erro: 'ja_comprou invalido' };
   if (!d.aceite_regulamento) return { ok: false, erro: 'sem aceite' };
 
   if (linhaDoWhatsapp_(aba, whatsapp)) return { ok: true, duplicado: true };
@@ -91,8 +96,10 @@ function cadastrar_(aba, d) {
     seguro_(nome),
     "'" + whatsapp,                 // apóstrofo: a planilha não vira número nem tira o zero
     seguro_(email),
-    compraPara,
+    usoPremio,
+    texto_(jaComprou),              // texto: "1 vez" e "+2 vezes" não podem virar número
     texto_(d.aceite_regulamento),
+    d.aceite_ofertas ? texto_(d.aceite_ofertas) : '',  // vazio = NÃO aceitou ofertas
     '',
     texto_(o.utm_source), texto_(o.utm_medium), texto_(o.utm_campaign),
     texto_(o.utm_content), texto_(o.utm_term),
@@ -118,6 +125,12 @@ function abaDeCadastros_() {
     aba.appendRow(CABECALHO);
     aba.setFrozenRows(1);
     aba.getRange(1, 1, 1, CABECALHO.length).setFontWeight('bold');
+  }
+  // Aba criada por uma versão antiga do script (outras colunas): gravar nela
+  // poria cada dado na coluna errada. Para — renomeie a aba antiga (ver LEIA-ME).
+  const atual = aba.getRange(1, 1, 1, CABECALHO.length).getValues()[0].map(String);
+  if (atual.join('|') !== CABECALHO.join('|')) {
+    throw new Error('A aba "' + ABA + '" tem o cabeçalho de uma versão antiga. Renomeie-a (ex.: "Cadastros antigos") e a próxima inscrição cria a aba nova.');
   }
   return aba;
 }
@@ -165,8 +178,8 @@ function resposta_(obj) {
    projeto. Use só o token da instância separada — nunca a chave global.
    ════════════════════════════════════════════════════════════════════ */
 
-const COL_NO_VIP = CABECALHO.length + 1;     // coluna N
-const COL_QUAIS_VIP = CABECALHO.length + 2;  // coluna O
+const COL_NO_VIP = CABECALHO.length + 1;     // coluna P
+const COL_QUAIS_VIP = CABECALHO.length + 2;  // coluna Q
 const ABA_MEMBROS = 'Membros VIP';
 
 function onOpen() {
@@ -296,7 +309,7 @@ function gravarConferencia_(lido) {
     chavesDoParticipante_(num).forEach((k) => { (grupoDe[k] = grupoDe[k] || []).push(grupo); });
   });
 
-  // ler C e gravar N/O sob a mesma trava do formulário: nenhum cadastro entra no meio
+  // ler C e gravar P/Q sob a mesma trava do formulário: nenhum cadastro entra no meio
   const trava = LockService.getScriptLock();
   trava.waitLock(30000);
   let resultado;

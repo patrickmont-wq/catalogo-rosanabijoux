@@ -5,7 +5,7 @@ Endereço: **https://links.rosanabijoux.com/sorteio/**
 | Arquivo | O que é |
 |---|---|
 | `index.html` | a página (CSS e JS dentro dela) |
-| `regulamento.html` | regulamento + privacidade do sorteio (**minuta**, campos em destaque a preencher) |
+| `regulamento.html` | regulamento + privacidade do sorteio (versão de 21/10/2026; as datas de fim e do sorteio são anunciadas depois, com 7 dias de antecedência) |
 | `apps-script.gs` | o código que grava os cadastros na planilha do Google |
 | `modelo-*.webp/jpg` | foto do topo (recorte de `FOTOS/1000620909.jpg`) |
 | `pf-marlett.woff2` | fonte dos títulos (PF Marlett, só os caracteres latinos) |
@@ -29,10 +29,21 @@ A aba **Cadastros** é criada sozinha no primeiro cadastro. Se mudar o script de
 Enquanto `PLANILHA_URL` estiver vazia, o formulário avisa "O cadastro ainda não está aberto",
 e não finge que gravou.
 
+**Mudou alguma coluna** (perguntas novas, como em 21/10)? O script recusa gravar numa aba **Cadastros** com o
+cabeçalho antigo (os dados iriam para as colunas erradas). Renomeie a aba antiga (ex.: "Cadastros antigos"):
+a próxima inscrição cria a aba nova com o cabeçalho certo. **Ordem:** primeiro o script novo publicado (Nova
+versão), depois a página nova no ar — a página nova manda campos que o script antigo recusa.
+
+Colunas desde 21/10: Data · Nome · WhatsApp · E-mail · Se ganhar, vai usar para · Já comprou na Rosana ·
+Aceitou regulamento (versão) · Aceitou ofertas (versão; **vazio = não aceitou**) · Clicou no grupo VIP em ·
+5 UTMs · Página · (P/Q: conferência dos grupos VIP). Para mandar ofertas, filtre só quem tem a coluna
+"Aceitou ofertas" preenchida.
+
 ## 2. Antes de divulgar
 
-- [ ] `regulamento.html`: preencher os trechos em destaque e apagar o aviso de minuta.
-- [ ] `CONFIG`: `RAZAO_SOCIAL`, `CNPJ`, `DATA_SORTEIO` (ou deixar `null` = "em breve").
+- [x] `regulamento.html` preenchido (21/10). Ao definir as datas: anunciar com 7 dias de antecedência
+      (§2) e pôr `DATA_SORTEIO`/`FIM_CADASTROS` no `CONFIG` e no script.
+- [x] `CONFIG`: `RAZAO_SOCIAL`, `CNPJ`. `DATA_SORTEIO` = `null` ("em breve") por enquanto.
 - [ ] Fim dos cadastros: `FIM_CADASTROS` no `CONFIG` **e** no `apps-script.gs` (a mesma data; se a página
       ficar só com `DATA_SORTEIO`, ponha essa data no script). Depois dela a página fecha o formulário e o
       script recusa cadastro.
@@ -43,7 +54,7 @@ e não finge que gravou.
 - [ ] Conferir se `GRUPO_VIP` é o grupo certo (é o mesmo link da página grupovip).
 - [ ] Avaliações reais do Google em `AVALIACOES`, `NOTA_GOOGLE`, `TOTAL_AVALIACOES`.
 - [ ] `META_PIXEL_ID` e `GA4_ID`, se for anunciar — e ajustar o trecho "Medição da página" no §9 do regulamento.
-- [ ] Tirar o `<meta name="robots" content="noindex">` de `index.html` e `regulamento.html`.
+- [x] `noindex` tirado de `index.html` e `regulamento.html` (21/10).
 - [ ] Testar no celular, no 4G: cadastro → aparece na planilha → botão do grupo → confirmação.
 
 ## Eventos de rastreamento

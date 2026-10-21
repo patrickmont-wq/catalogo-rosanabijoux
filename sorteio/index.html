@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Sorteio Black Friday · Rosana Bijoux</title>
 <meta name="description" content="Cadastre-se e entre no grupo VIP para concorrer a R$500 e R$200 em compras na Rosana Bijoux.">
-<!-- Tirar o noindex quando o regulamento, o CNPJ e a planilha estiverem prontos. -->
-<meta name="robots" content="noindex">
 <meta name="theme-color" content="#25262a">
 <meta property="og:title" content="Sorteio Black Friday · Rosana Bijoux">
 <meta property="og:description" content="1º lugar R$500 e 2º lugar R$200 em compras. Cadastre-se e entre no grupo VIP.">
@@ -130,6 +128,8 @@ section.bloco{padding:44px 0}
 .campo input[aria-invalid=true]{border-color:var(--erro);border-width:2px}
 fieldset.campo{border:0;margin:0 0 14px;padding:0;min-width:0}
 .opcoes{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opcoes-lista{grid-template-columns:1fr}
+.campo legend{line-height:1.5}
 .opcao{position:relative}
 .opcao input{position:absolute;opacity:0;inset:0;margin:0}
 .opcao span{display:flex;align-items:center;justify-content:center;height:46px;border:1px solid var(--borda-campo);font-size:14px;cursor:pointer;transition:all .12s}
@@ -290,13 +290,24 @@ footer .logo{color:#fff;margin-bottom:18px}
             <input type="email" id="email" name="email" autocomplete="email" inputmode="email" maxlength="120" required>
             <div class="erro-campo" id="erro-email">Confira o e-mail.</div>
           </div>
-          <fieldset class="campo">
-            <legend>Você compra para</legend>
-            <div class="opcoes">
-              <label class="opcao"><input type="radio" name="compra_para" value="uso_proprio" required><span>Uso próprio</span></label>
-              <label class="opcao"><input type="radio" name="compra_para" value="revenda"><span>Revenda</span></label>
+          <fieldset class="campo" id="campo-uso_premio">
+            <legend>Se você ganhar, o que vai fazer com o prêmio?</legend>
+            <div class="opcoes opcoes-lista">
+              <label class="opcao"><input type="radio" name="uso_premio" value="uso_proprio" required><span>Uso próprio</span></label>
+              <label class="opcao"><input type="radio" name="uso_premio" value="aumentar_estoque"><span>Aumentar meu estoque</span></label>
+              <label class="opcao"><input type="radio" name="uso_premio" value="comecar_vender"><span>Começar a vender</span></label>
             </div>
-            <div class="erro-campo" id="erro-compra_para">Escolha uma opção.</div>
+            <div class="erro-campo" id="erro-uso_premio">Escolha uma opção.</div>
+          </fieldset>
+          <fieldset class="campo" id="campo-ja_comprou">
+            <legend>Só mais uma perguntinha: você já comprou na Rosana Bijoux?</legend>
+            <div class="opcoes">
+              <label class="opcao"><input type="radio" name="ja_comprou" value="nunca" required><span>Nunca</span></label>
+              <label class="opcao"><input type="radio" name="ja_comprou" value="1"><span>1 vez</span></label>
+              <label class="opcao"><input type="radio" name="ja_comprou" value="2+"><span>+2 vezes</span></label>
+              <label class="opcao"><input type="radio" name="ja_comprou" value="10+"><span>+10 vezes</span></label>
+            </div>
+            <div class="erro-campo" id="erro-ja_comprou">Escolha uma opção.</div>
           </fieldset>
           <div class="mel" aria-hidden="true"><label>Não preencha<input type="text" name="site" tabindex="-1" autocomplete="off"></label></div>
           <label class="aceite">
@@ -304,6 +315,11 @@ footer .logo{color:#fff;margin-bottom:18px}
             <span>Tenho 18 anos ou mais, li e aceito o <a href="regulamento.html" target="_blank">regulamento</a> e autorizo o uso dos meus dados para o sorteio, conforme a <a href="regulamento.html#privacidade" target="_blank">política de privacidade</a> (LGPD).</span>
           </label>
           <div class="erro-campo" id="erro-aceite" style="margin:-8px 0 12px">Para participar, marque o aceite.</div>
+          <!-- Opcional e separado do aceite (LGPD): sem marcar, participa do sorteio do mesmo jeito. -->
+          <label class="aceite">
+            <input type="checkbox" id="ofertas" name="ofertas">
+            <span>Quero receber ofertas e novidades da Rosana Bijoux por WhatsApp e e-mail (opcional — não muda nada no sorteio).</span>
+          </label>
           <button type="submit" class="btn btn-principal" id="enviar">Quero me cadastrar</button>
           <div class="status" id="status" role="status" aria-live="polite"></div>
         </form>
@@ -460,7 +476,7 @@ const CONFIG = {
 
   // Vai junto com o cadastro, para saber qual regulamento a pessoa aceitou.
   // Mudou o texto do regulamento? Mude esta versão (e a data no rodapé dele).
-  VERSAO_REGULAMENTO: '2026-10-12',
+  VERSAO_REGULAMENTO: '2026-10-21',
 };
 
 /* ════════════════════════════════════════════════════════════════════ */
@@ -623,23 +639,29 @@ const CONFIG = {
     // DDD (11–99) + celular com 9 na frente, ou fixo de 8 dígitos
     whatsapp: () => /^[1-9][1-9](9\d{8}|[2-5]\d{7})$/.test(digitosDoWhats(whats.value)),
     email: () => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(form.email.value.trim()),
-    compra_para: () => !!form.querySelector('input[name=compra_para]:checked'),
+    uso_premio: () => !!marcada('uso_premio'),
+    ja_comprou: () => !!marcada('ja_comprou'),
     aceite: () => form.aceite.checked,
   };
+  // perguntas de escolha (o erro fica no fieldset, não em cada opção)
+  const ESCOLHAS = ['uso_premio', 'ja_comprou'];
+  function marcada(nome) { return form.querySelector('input[name=' + nome + ']:checked'); }
   // A mensagem de erro só fica ligada ao campo enquanto vale: texto escondido
   // apontado por aria-describedby ainda é lido pelo leitor de tela.
   function marca(campo, ok) {
     $('erro-' + campo).classList.toggle('mostra', !ok);
-    const el = campo === 'compra_para' ? form.querySelector('fieldset.campo') : form[campo];
-    if (campo !== 'compra_para') el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+    const escolha = ESCOLHAS.includes(campo);
+    const el = escolha ? $('campo-' + campo) : form[campo];
+    if (!escolha) el.setAttribute('aria-invalid', ok ? 'false' : 'true');
     if (ok) el.removeAttribute('aria-describedby');
     else el.setAttribute('aria-describedby', 'erro-' + campo);
     return ok;
   }
   Object.keys(regras).forEach((c) => {
-    const els = c === 'compra_para' ? form.querySelectorAll('input[name=compra_para]') : [form[c]];
-    els.forEach((el) => el.addEventListener(c === 'aceite' || c === 'compra_para' ? 'change' : 'blur', () => {
-      if (c === 'aceite' || c === 'compra_para' || el.value) marca(c, regras[c]());
+    const escolha = ESCOLHAS.includes(c);
+    const els = escolha ? form.querySelectorAll('input[name=' + c + ']') : [form[c]];
+    els.forEach((el) => el.addEventListener(c === 'aceite' || escolha ? 'change' : 'blur', () => {
+      if (c === 'aceite' || escolha || el.value) marca(c, regras[c]());
     }));
   });
 
@@ -678,7 +700,7 @@ const CONFIG = {
       if (!ok && !primeiroErro) primeiroErro = c;
     });
     if (primeiroErro) {
-      const alvoErro = primeiroErro === 'compra_para' ? form.querySelector('input[name=compra_para]') : form[primeiroErro];
+      const alvoErro = ESCOLHAS.includes(primeiroErro) ? form.querySelector('input[name=' + primeiroErro + ']') : form[primeiroErro];
       alvoErro.focus();
       return;
     }
@@ -699,8 +721,11 @@ const CONFIG = {
       nome: form.nome.value.trim().replace(/\s+/g, ' '),
       whatsapp: digitosDoWhats(whats.value),
       email: form.email.value.trim().toLowerCase(),
-      compra_para: form.querySelector('input[name=compra_para]:checked').value,
+      uso_premio: marcada('uso_premio').value,
+      ja_comprou: marcada('ja_comprou').value,
       aceite_regulamento: CONFIG.VERSAO_REGULAMENTO,
+      // a versão do regulamento vai junto: é o texto que ela viu ao marcar
+      aceite_ofertas: form.ofertas.checked ? CONFIG.VERSAO_REGULAMENTO : '',
       origem: estado.origem || {},
       pagina: location.href.split('#')[0],
     };
