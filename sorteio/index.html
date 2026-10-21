@@ -290,7 +290,7 @@ footer .logo{color:#fff;margin-bottom:18px}
             <input type="email" id="email" name="email" autocomplete="email" inputmode="email" maxlength="120" required>
             <div class="erro-campo" id="erro-email">Confira o e-mail.</div>
           </div>
-          <fieldset class="campo" id="campo-uso_premio">
+          <fieldset class="campo">
             <legend>Se você ganhar, o que vai fazer com o prêmio?</legend>
             <div class="opcoes opcoes-lista">
               <label class="opcao"><input type="radio" name="uso_premio" value="uso_proprio" required><span>Uso próprio</span></label>
@@ -299,7 +299,7 @@ footer .logo{color:#fff;margin-bottom:18px}
             </div>
             <div class="erro-campo" id="erro-uso_premio">Escolha uma opção.</div>
           </fieldset>
-          <fieldset class="campo" id="campo-ja_comprou">
+          <fieldset class="campo">
             <legend>Só mais uma perguntinha: você já comprou na Rosana Bijoux?</legend>
             <div class="opcoes">
               <label class="opcao"><input type="radio" name="ja_comprou" value="nunca" required><span>Nunca</span></label>
@@ -650,11 +650,14 @@ const CONFIG = {
   // apontado por aria-describedby ainda é lido pelo leitor de tela.
   function marca(campo, ok) {
     $('erro-' + campo).classList.toggle('mostra', !ok);
-    const escolha = ESCOLHAS.includes(campo);
-    const el = escolha ? $('campo-' + campo) : form[campo];
-    if (!escolha) el.setAttribute('aria-invalid', ok ? 'false' : 'true');
-    if (ok) el.removeAttribute('aria-describedby');
-    else el.setAttribute('aria-describedby', 'erro-' + campo);
+    // escolha: o aviso vai em cada opção (descrição no fieldset é lida de
+    // forma irregular pelos leitores de tela)
+    const els = ESCOLHAS.includes(campo) ? form.querySelectorAll('input[name=' + campo + ']') : [form[campo]];
+    els.forEach((el) => {
+      el.setAttribute('aria-invalid', ok ? 'false' : 'true');
+      if (ok) el.removeAttribute('aria-describedby');
+      else el.setAttribute('aria-describedby', 'erro-' + campo);
+    });
     return ok;
   }
   Object.keys(regras).forEach((c) => {

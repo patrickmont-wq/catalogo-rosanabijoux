@@ -30,14 +30,27 @@ Enquanto `PLANILHA_URL` estiver vazia, o formulário avisa "O cadastro ainda nã
 e não finge que gravou.
 
 **Mudou alguma coluna** (perguntas novas, como em 21/10)? O script recusa gravar numa aba **Cadastros** com o
-cabeçalho antigo (os dados iriam para as colunas erradas). Renomeie a aba antiga (ex.: "Cadastros antigos"):
-a próxima inscrição cria a aba nova com o cabeçalho certo. **Ordem:** primeiro o script novo publicado (Nova
-versão), depois a página nova no ar — a página nova manda campos que o script antigo recusa.
+cabeçalho antigo (os dados iriam para as colunas erradas). A troca, em horário sem movimento, nesta ordem:
+
+1. publicar o script novo (Gerenciar implantações → editar → **Nova versão**);
+2. **logo em seguida**, renomear a aba antiga (ex.: "Cadastros antigos") — se renomear ANTES do passo 1, o
+   script antigo recria "Cadastros" com o cabeçalho antigo no próximo cadastro, e o novo recusa essa aba;
+3. pôr a página nova no ar. Entre 1 e 3 a página antiga recebe erro (manda campos que o script novo recusa).
+
+A próxima inscrição cria a aba nova com o cabeçalho certo. **Não edite a linha 1 (títulos) da aba Cadastros:**
+qualquer título diferente faz o script recusar todo cadastro (o motivo aparece em Apps Script → Execuções).
 
 Colunas desde 21/10: Data · Nome · WhatsApp · E-mail · Se ganhar, vai usar para · Já comprou na Rosana ·
 Aceitou regulamento (versão) · Aceitou ofertas (versão; **vazio = não aceitou**) · Clicou no grupo VIP em ·
 5 UTMs · Página · (P/Q: conferência dos grupos VIP). Para mandar ofertas, filtre só quem tem a coluna
 "Aceitou ofertas" preenchida.
+
+**Depois do sorteio (o regulamento promete, §9):**
+- **6 meses após o sorteio:** apagar as linhas de quem NÃO aceitou ofertas, a aba "Membros VIP" e a aba
+  "Cadastros antigos"; de quem aceitou, manter só Nome, WhatsApp, E-mail e "Aceitou ofertas" (apagar as demais
+  colunas). Pôr um lembrete na agenda no dia do sorteio.
+- **"SAIR" / pedido de apagar dados** (por WhatsApp ou e-mail): apagar a linha da pessoa (ou limpar a coluna
+  "Aceitou ofertas", se ela só quer parar de receber ofertas) e tirá-la de qualquer lista de envio.
 
 ## 2. Antes de divulgar
 
