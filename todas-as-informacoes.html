@@ -298,6 +298,12 @@ footer{background:var(--dark);padding:2.5rem 1.5rem 2rem;text-align:center;borde
 .bras-intro strong{color:var(--dark);font-weight:500;}
 .bras-precos{margin-bottom:1.2rem;}
 .bras-precos .frete-card{padding:1.1rem 1.2rem;}
+.bras-gratis{color:var(--gold);}
+@media(max-width:700px){
+  .bras-precos .frete-card{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:0.85rem 1rem;}
+  .bras-precos .frete-region,.bras-precos .frete-value{margin:0;}
+  .bras-precos .frete-value{font-size:1.4rem;white-space:nowrap;}
+}
 .simu-op-nome a{color:var(--gold-dark);}
 .simu-nota{font-size:0.72rem;font-weight:300;color:var(--muted);line-height:1.6;margin-top:0.7rem;}
 @media(max-width:600px){
@@ -694,16 +700,16 @@ footer{background:var(--dark);padding:2.5rem 1.5rem 2rem;text-align:center;borde
       <p class="bras-intro">Vem para São Paulo de excursão ou tem transportadora que passa no Brás? Entregamos seu pedido <strong>direto no ônibus</strong>, no dia em que ele estiver no Brás.</p>
       <div class="frete-grid bras-precos">
         <div class="frete-card">
-          <p class="frete-region">Pedidos abaixo de R$ 200</p>
+          <p class="frete-region">Abaixo de R$&nbsp;200</p>
           <p class="frete-value">R$ 25</p>
         </div>
         <div class="frete-card">
-          <p class="frete-region">De R$ 200 a R$ 499</p>
+          <p class="frete-region">De R$&nbsp;200 a R$&nbsp;499</p>
           <p class="frete-value">R$ 15</p>
         </div>
         <div class="frete-card">
-          <span class="frete-badge-gold">✦ Grátis</span>
-          <p class="frete-region">A partir de R$ 500</p>
+          <p class="frete-region">A partir de R$&nbsp;500</p>
+          <p class="frete-value bras-gratis">Grátis</p>
         </div>
       </div>
       <div class="frete-how-steps">
@@ -1187,7 +1193,8 @@ sections.forEach(s => observer.observe(s));
       valor = caixa.querySelector('#simu-valor'), btn = caixa.querySelector('.simu-btn'),
       res = caixa.querySelector('.simu-res'), chips = caixa.querySelectorAll('.simu-chip');
 
-  function brl(n) { return 'R$ ' + n.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  // Espaço que não quebra: "R$" nunca fica sozinho no fim da linha.
+  function brl(n) { return 'R$ ' + n.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
   function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
   // "1.500" e "1.500,50" são milhar; "150.50" e "150,50" são centavos.
   function lerValor() {
