@@ -17,5 +17,7 @@ página ler a resposta, e a Cloudflare da loja recusa (403) o servidor do Agente
 
 Se mudar o script depois: **Implantar → Gerenciar implantações → editar → Nova versão** (a URL continua a mesma).
 
-A peça de referência (`VARIANTE` no script, R$ 2,90) precisa continuar existindo com esse preço; se mudar,
-atualize `VARIANTE` no script e `PRECO_REFERENCIA` na página.
+A página manda o valor do pedido; o script o converte em quantidade de uma peça de referência, escolhida
+sozinha (o brinco mais barato de "Todos os brincos", relido a cada 6 h). Peça esgotada não atrapalha (a loja
+calcula frete sem estoque); se a vitrine não puder ser lida, usa `REFERENCIA_RESERVA`. Abrir a URL do script
+sem parâmetros mostra a referência em uso.
