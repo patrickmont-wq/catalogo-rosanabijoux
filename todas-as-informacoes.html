@@ -264,6 +264,48 @@ footer{background:var(--dark);padding:2.5rem 1.5rem 2rem;text-align:center;borde
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 
 /* ── RESPONSIVE ── */
+/* ── SIMULADOR DE FRETE ── */
+.simu{background:var(--white);border:1px solid var(--gold-light);border-radius:2px;padding:1.6rem 1.5rem;margin-top:1.2rem;}
+.simu-title{font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:400;color:var(--dark);line-height:1.1;margin-bottom:0.3rem;}
+.simu-title em{color:var(--gold);font-style:italic;}
+.simu-sub{font-size:0.8rem;font-weight:300;color:var(--mid);line-height:1.6;margin-bottom:1.1rem;}
+.simu-form{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) auto;gap:0.8rem;align-items:end;}
+.simu-campo label{display:block;font-size:0.66rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);margin-bottom:0.4rem;}
+.simu-campo input{width:100%;font:inherit;font-size:1rem;color:var(--dark);background:var(--cream);border:1px solid var(--beige-mid);border-radius:2px;padding:0.7rem 0.8rem;min-height:46px;}
+.simu-campo input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(184,148,63,0.15);}
+.simu-valor{position:relative;}
+.simu-valor span{position:absolute;left:0.8rem;top:50%;transform:translateY(-50%);font-size:0.95rem;color:var(--muted);pointer-events:none;}
+.simu-valor input{padding-left:2.4rem;}
+.simu-btn{font:inherit;font-size:0.72rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;background:var(--dark);color:var(--cream);border:0;border-radius:2px;padding:0 1.4rem;min-height:46px;cursor:pointer;transition:background 0.2s;}
+.simu-btn:hover{background:var(--gold);}
+.simu-btn:disabled{opacity:0.6;cursor:wait;}
+.simu-chips{display:flex;flex-wrap:wrap;gap:0.4rem;margin-top:0.7rem;}
+.simu-chip{font:inherit;font-size:0.74rem;color:var(--mid);background:var(--beige);border:1px solid var(--beige-mid);border-radius:999px;padding:0.35rem 0.8rem;cursor:pointer;}
+.simu-chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#fff;}
+.simu-res{margin-top:1.2rem;}
+.simu-res:empty{display:none;}
+.simu-aviso{font-size:0.8rem;font-weight:300;color:var(--mid);line-height:1.6;padding:0.8rem 1rem;background:rgba(184,148,63,0.07);border:1px solid rgba(184,148,63,0.2);border-radius:2px;}
+.simu-aviso strong{color:var(--dark);font-weight:500;}
+.simu-lista{list-style:none;border:1px solid var(--beige-mid);border-radius:2px;margin-top:0.8rem;}
+.simu-op{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:0.8rem 1rem;border-top:1px solid var(--beige-mid);}
+.simu-op:first-child{border-top:0;}
+.simu-op-nome{font-size:0.84rem;color:var(--dark);line-height:1.4;overflow-wrap:anywhere;}
+.simu-op-prazo{display:block;font-size:0.74rem;font-weight:300;color:var(--muted);margin-top:2px;}
+.simu-op-preco{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--dark);white-space:nowrap;}
+.simu-op.gratis .simu-op-preco{font-family:'DM Sans',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#fff;background:var(--gold);padding:4px 9px;border-radius:1px;}
+.bras{margin-top:1.2rem;margin-bottom:0;}
+.bras-intro{font-size:0.84rem;font-weight:300;color:var(--mid);line-height:1.6;margin-bottom:1rem;}
+.bras-intro strong{color:var(--dark);font-weight:500;}
+.bras-precos{margin-bottom:1.2rem;}
+.bras-precos .frete-card{padding:1.1rem 1.2rem;}
+.simu-op-nome a{color:var(--gold-dark);}
+.simu-nota{font-size:0.72rem;font-weight:300;color:var(--muted);line-height:1.6;margin-top:0.7rem;}
+@media(max-width:600px){
+  .simu{padding:1.3rem 1rem;}
+  .simu-form{grid-template-columns:1fr 1fr;}
+  .simu-btn{grid-column:1 / -1;}
+}
+
 @media(max-width:700px){
   .header-links a:not(.btn-header-dark){display:none;}
   .btn-header-dark{display:none;}
@@ -620,6 +662,72 @@ footer{background:var(--dark);padding:2.5rem 1.5rem 2rem;text-align:center;borde
     <div class="frete-alert">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#B8943F" stroke-width="1.5" stroke-linecap="round" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="0.5" fill="#B8943F"/></svg>
       <p>Para pedidos abaixo do valor de frete grátis, o valor é calculado automaticamente pelo sistema com base no seu CEP e peso do pedido. Trabalhamos com <strong>Correios, Loggi e Mandaê</strong>.</p>
+    </div>
+
+    <div class="simu" id="simulador-frete" hidden>
+      <h3 class="simu-title">Simule o <em>frete</em></h3>
+      <p class="simu-sub">Digite seu CEP e o valor aproximado do pedido. As opções vêm direto da nossa loja, as mesmas que aparecem no carrinho.</p>
+      <form class="simu-form" novalidate>
+        <div class="simu-campo">
+          <label for="simu-cep">Seu CEP</label>
+          <input id="simu-cep" name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9" required>
+        </div>
+        <div class="simu-campo">
+          <label for="simu-valor">Valor do pedido</label>
+          <div class="simu-valor"><span>R$</span><input id="simu-valor" name="valor" inputmode="decimal" value="150" required></div>
+        </div>
+        <button type="submit" class="simu-btn">Calcular</button>
+      </form>
+      <div class="simu-chips" role="group" aria-label="Valores rápidos">
+        <button type="button" class="simu-chip" data-valor="100">R$ 100</button>
+        <button type="button" class="simu-chip" data-valor="150" aria-pressed="true">R$ 150</button>
+        <button type="button" class="simu-chip" data-valor="250">R$ 250</button>
+        <button type="button" class="simu-chip" data-valor="350">R$ 350</button>
+        <button type="button" class="simu-chip" data-valor="500">R$ 500</button>
+        <button type="button" class="simu-chip" data-valor="700">R$ 700</button>
+      </div>
+      <div class="simu-res" aria-live="polite"></div>
+    </div>
+
+    <div class="frete-how bras" id="excursao-bras">
+      <h3 class="frete-how-title">🚌 Excursão no Brás</h3>
+      <p class="bras-intro">Vem para São Paulo de excursão ou tem transportadora que passa no Brás? Entregamos seu pedido <strong>direto no ônibus</strong>, no dia em que ele estiver no Brás.</p>
+      <div class="frete-grid bras-precos">
+        <div class="frete-card">
+          <p class="frete-region">Pedidos abaixo de R$ 200</p>
+          <p class="frete-value">R$ 25</p>
+        </div>
+        <div class="frete-card">
+          <p class="frete-region">De R$ 200 a R$ 499</p>
+          <p class="frete-value">R$ 15</p>
+        </div>
+        <div class="frete-card">
+          <span class="frete-badge-gold">✦ Grátis</span>
+          <p class="frete-region">A partir de R$ 500</p>
+        </div>
+      </div>
+      <div class="frete-how-steps">
+        <div class="frete-how-step">
+          <div class="frete-how-num">1</div>
+          <div>No checkout, escolha a forma de envio <strong>"Excursão no Brás-SP"</strong>.</div>
+        </div>
+        <div class="frete-how-step">
+          <div class="frete-how-num">2</div>
+          <div>Informe o <strong>dia em que a excursão vai estar no Brás</strong> (obrigatório) e, se já souber, o horário limite, o nome do guia, o local ou estacionamento e a placa do ônibus.</div>
+        </div>
+        <div class="frete-how-step">
+          <div class="frete-how-num">3</div>
+          <div>Ainda não tem os dados do ônibus? Marque a caixinha <strong>"Ainda não tenho as informações do ônibus"</strong> e envie tudo pelo WhatsApp até 1 dia antes.</div>
+        </div>
+        <div class="frete-how-step">
+          <div class="frete-how-num">4</div>
+          <div>Entregamos o pedido no ônibus da sua excursão, no dia combinado, até o horário limite.</div>
+        </div>
+      </div>
+      <p class="frete-how-tip">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#B8943F" stroke-width="1.5" stroke-linecap="round" style="flex-shrink:0;margin-top:1px;"><circle cx="8" cy="8" r="7"/><path d="M8 5v3"/><circle cx="8" cy="11" r="0.4" fill="#B8943F"/></svg>
+        Essa opção é só para quem já tem excursão ou transportadora que vai ao Brás. Não tem? Escolha Correios ou outra transportadora no checkout.
+      </p>
     </div>
 
     <div class="prazo-strip">
@@ -1058,5 +1166,108 @@ const observer = new IntersectionObserver(entries => {
 sections.forEach(s => observer.observe(s));
 </script>
 
+<script>
+/* Simulador de frete: pergunta à calculadora da loja pelo Agente Disparo
+   (a loja não deixa outra página ler a resposta direto). O "valor do pedido"
+   vira uma quantidade de uma peça de referência, para o peso e o frete grátis
+   saírem como no carrinho. */
+(function () {
+  // A loja (Cloudflare) devolve 403 para o servidor do Agente Disparo; vazio = escondido.
+  var API = '';
+  var LOJA = '1539982';
+  // Brinco Banhado Dourado - 2 Gotas entrelaçadas riscadas (R$ 2,90)
+  var VARIANTE = '1548776590', PRECO_REFERENCIA = 2.90, MAX_PECAS = 500;
+  var ERRO = 'Não deu para calcular agora. Tente de novo em alguns minutos, ou veja o frete direto no <strong>carrinho da loja</strong>.';
+
+  var caixa = document.getElementById('simulador-frete');
+  // Sem intermediário que a loja aceite, o simulador fica escondido.
+  if (!caixa || !API) return;
+  caixa.hidden = false;
+  var form = caixa.querySelector('form'), cep = caixa.querySelector('#simu-cep'),
+      valor = caixa.querySelector('#simu-valor'), btn = caixa.querySelector('.simu-btn'),
+      res = caixa.querySelector('.simu-res'), chips = caixa.querySelectorAll('.simu-chip');
+
+  function brl(n) { return 'R$ ' + n.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  function esc(t) { var d = document.createElement('div'); d.textContent = t; return d.innerHTML; }
+  // "1.500" e "1.500,50" são milhar; "150.50" e "150,50" são centavos.
+  function lerValor() {
+    var t = String(valor.value).replace(/[^\d.,]/g, '');
+    t = t.indexOf(',') >= 0 || /\.\d{3}$/.test(t) ? t.replace(/\./g, '').replace(',', '.') : t;
+    var n = parseFloat(t);
+    return isFinite(n) ? n : NaN;
+  }
+  function aviso(html) { res.innerHTML = '<p class="simu-aviso">' + html + '</p>'; }
+
+  // Regra do frete grátis por região (a mesma dos cartões acima), pela faixa do CEP.
+  function regiao(c) {
+    var n = parseInt(c.slice(0, 5), 10);
+    if (n >= 1000 && n <= 19999) return { nome: 'São Paulo', minimo: 350 };
+    if ((n >= 20000 && n <= 39999) || (n >= 80000 && n <= 99999)) return { nome: 'Sul e Sudeste', minimo: 500 };
+    return { nome: 'sua região', minimo: 700 };
+  }
+
+  cep.addEventListener('input', function () {
+    var d = cep.value.replace(/\D/g, '').slice(0, 8);
+    cep.value = d.length > 5 ? d.slice(0, 5) + '-' + d.slice(5) : d;
+  });
+  valor.addEventListener('input', function () {
+    var v = lerValor();
+    chips.forEach(function (c) { c.setAttribute('aria-pressed', String(Number(c.dataset.valor) === v)); });
+  });
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () {
+      valor.value = c.dataset.valor;
+      chips.forEach(function (o) { o.setAttribute('aria-pressed', String(o === c)); });
+      if (cep.value.replace(/\D/g, '').length === 8) calcular();
+    });
+  });
+  form.addEventListener('submit', function (e) { e.preventDefault(); calcular(); });
+
+  function calcular() {
+    var c = cep.value.replace(/\D/g, ''), v = lerValor();
+    if (c.length !== 8) { aviso('Digite o CEP completo, com 8 números.'); cep.focus(); return; }
+    if (!(v > 0)) { aviso('Digite o valor aproximado do pedido.'); valor.focus(); return; }
+    if (btn.disabled) return;
+    var qtd = Math.min(MAX_PECAS, Math.max(1, Math.round(v / PRECO_REFERENCIA)));
+    btn.disabled = true; btn.textContent = 'Calculando…';
+    res.innerHTML = '';
+    if (window.gtag) gtag('event', 'simular_frete', { value: v });
+    fetch(API, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify({ loja: LOJA, cep: c, variante: VARIANTE, quantidade: qtd })
+    })
+      .then(function (r) { return r.json().catch(function () { return null; }); })
+      .then(function (d) {
+        if (d && d.ok) return mostrar(d.opcoes, c, v);
+        if (d && (d.motivo === 'cep' || d.motivo === 'pedido')) return aviso('Não encontramos esse CEP. Confira os números e tente de novo.');
+        aviso(ERRO);
+      })
+      .catch(function () { aviso(ERRO); })
+      .then(function () { btn.disabled = false; btn.textContent = 'Calcular'; });
+  }
+
+  function mostrar(opcoes, c, v) {
+    var gratis = opcoes.some(function (o) { return o.preco === 0 && !o.retirada; });
+    // Entrega primeiro, da mais barata para a mais cara; retirada no fim.
+    var ordem = opcoes.slice().sort(function (a, b) { return (a.retirada - b.retirada) || (a.preco - b.preco); });
+    var r = regiao(c), topo;
+    if (gratis) topo = '<strong>Seu pedido tem frete grátis!</strong>';
+    else if (v < r.minimo) topo = 'Faltam <strong>' + brl(r.minimo - v) + '</strong> para o frete grátis (' + esc(r.nome) + ': a partir de ' + brl(r.minimo) + ').';
+    else topo = 'Confira as opções para o seu CEP:';
+    var itens = ordem.map(function (o) {
+      // A excursão tem nome de aviso interno na loja; aqui ganha um nome claro e o link da explicação.
+      var bras = /br[aá]s/i.test(o.nome) && /excurs|[oô]nibus/i.test(o.nome);
+      var nome = bras ? 'Excursão no Brás (entrega no ônibus)' : o.nome;
+      var prazo = bras ? '<a href="#excursao-bras">Como funciona</a>' : (o.prazo ? esc(o.prazo) : '');
+      return '<li class="simu-op' + (o.preco === 0 ? ' gratis' : '') + '"><span class="simu-op-nome">' + esc(nome) +
+        (prazo ? '<span class="simu-op-prazo">' + prazo + '</span>' : '') +
+        '</span><span class="simu-op-preco">' + (o.preco === 0 ? 'Grátis' : brl(o.preco)) + '</span></li>';
+    }).join('');
+    res.innerHTML = '<p class="simu-aviso">' + topo + '</p><ul class="simu-lista">' + itens + '</ul>' +
+      '<p class="simu-nota">Valores estimados para um pedido de ' + brl(v) + '. O prazo de envio (1 a 2 dias úteis após o pagamento) é somado ao prazo da transportadora. O valor exato aparece no carrinho.</p>';
+  }
+})();
+</script>
 </body>
 </html>
