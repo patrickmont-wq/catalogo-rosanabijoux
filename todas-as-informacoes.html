@@ -1167,16 +1167,16 @@ sections.forEach(s => observer.observe(s));
 </script>
 
 <script>
-/* Simulador de frete: pergunta à calculadora da loja pelo Agente Disparo
-   (a loja não deixa outra página ler a resposta direto). O "valor do pedido"
-   vira uma quantidade de uma peça de referência, para o peso e o frete grátis
-   saírem como no carrinho. */
+/* Simulador de frete: pergunta à calculadora da loja por um Apps Script
+   (frete/apps-script.gs) — a loja não deixa outra página ler a resposta, e a
+   Cloudflare dela devolve 403 para o servidor do Agente Disparo. O "valor do
+   pedido" vira uma quantidade de uma peça de referência (a variante fica no
+   script), para o peso e o frete grátis saírem como no carrinho. */
 (function () {
-  // A loja (Cloudflare) devolve 403 para o servidor do Agente Disparo; vazio = escondido.
+  // URL do app da Web do Apps Script (termina em /exec). Vazia = simulador escondido.
   var API = '';
-  var LOJA = '1539982';
-  // Brinco Banhado Dourado - 2 Gotas entrelaçadas riscadas (R$ 2,90)
-  var VARIANTE = '1548776590', PRECO_REFERENCIA = 2.90, MAX_PECAS = 500;
+  // Preço da peça de referência do script (Brinco 2 Gotas entrelaçadas riscadas).
+  var PRECO_REFERENCIA = 2.90, MAX_PECAS = 500;
   var ERRO = 'Não deu para calcular agora. Tente de novo em alguns minutos, ou veja o frete direto no <strong>carrinho da loja</strong>.';
 
   var caixa = document.getElementById('simulador-frete');
@@ -1232,11 +1232,8 @@ sections.forEach(s => observer.observe(s));
     btn.disabled = true; btn.textContent = 'Calculando…';
     res.innerHTML = '';
     if (window.gtag) gtag('event', 'simular_frete', { value: v });
-    fetch(API, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body: JSON.stringify({ loja: LOJA, cep: c, variante: VARIANTE, quantidade: qtd })
-    })
+    // Apps Script (frete/apps-script.gs): GET simples, sem preflight; a peça de referência mora lá.
+    fetch(API + '?cep=' + c + '&quantidade=' + qtd)
       .then(function (r) { return r.json().catch(function () { return null; }); })
       .then(function (d) {
         if (d && d.ok) return mostrar(d.opcoes, c, v);
