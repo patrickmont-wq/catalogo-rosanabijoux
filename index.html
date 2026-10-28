@@ -191,6 +191,23 @@
     box-shadow: -3px 0 0 var(--gold);
   }
 
+  /* Parceria Pinkfy — rosa e vinho da marca parceira (texto vinho: branco não tem contraste no rosa) */
+  .link-btn.pinkfy {
+    background: #E27CA2;
+    border: 1px solid #C95F87;
+  }
+  .link-btn.pinkfy:hover, .link-btn.pinkfy:active {
+    background: #D96D96;
+    transform: translateX(3px);
+    box-shadow: -3px 0 0 #4F2132;
+  }
+  .link-btn.pinkfy .link-title { color: #4F2132; font-weight: 600; }
+  .link-btn.pinkfy .link-sub { color: #4F2132; font-weight: 400; }
+  .link-btn.pinkfy .link-arrow { opacity: 0.6; }
+  .link-btn.pinkfy .badge { background: #4F2132; }
+  .link-btn.pinkfy .link-icon { background: #4F2132; }
+  .link-btn.pinkfy .link-icon img { width: 22px; height: auto; display: block; }
+
   /* WhatsApp */
   .link-btn.whatsapp {
     background: #F0FAF3;
@@ -368,9 +385,9 @@
   <div class="links-group">
 
     <!-- Parceria Pinkfy: sorteio da Pinkfy com prêmio extra de R$100 na Rosana. UTM própria para contar as inscrições desta página. Tirar depois de 10/11. -->
-    <a href="https://links.lojapinkfy.com.br/parceria-rosana?utm_source=rosana-bijoux&amp;utm_medium=pagina-links&amp;utm_campaign=sorteio&amp;utm_content=social-linking" class="link-btn highlight">
-      <div class="link-icon" style="background:rgba(184,148,63,0.12);">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#B8943F" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-4.4-9.3-9A5.4 5.4 0 0112 6.6 5.4 5.4 0 0121.3 12C19 16.6 12 21 12 21z"/></svg>
+    <a href="https://links.lojapinkfy.com.br/parceria-rosana?utm_source=rosana-bijoux&amp;utm_medium=pagina-links&amp;utm_campaign=sorteio&amp;utm_content=social-linking" class="link-btn pinkfy">
+      <div class="link-icon">
+        <img src="pinkfy-marca-branca.svg" alt="" width="633" height="379">
       </div>
       <div class="link-text">
         <span class="link-title">Parceria Pinkfy <span class="badge">Novo</span></span>
