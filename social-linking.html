@@ -197,13 +197,14 @@
     border: 1px solid #C95F87;
   }
   .link-btn.pinkfy:hover, .link-btn.pinkfy:active {
-    background: #D96D96;
+    background: #E68BAD; /* mais claro, não mais escuro: o vinho segue acima de 4,5:1 */
     transform: translateX(3px);
     box-shadow: -3px 0 0 #4F2132;
   }
   .link-btn.pinkfy .link-title { color: #4F2132; font-weight: 600; }
   .link-btn.pinkfy .link-sub { color: #4F2132; font-weight: 400; }
-  .link-btn.pinkfy .link-arrow { opacity: 0.6; }
+  .link-btn.pinkfy .link-arrow { opacity: 0.6; stroke: #4F2132; }
+  .link-btn.pinkfy:hover .link-arrow { opacity: 0.85; }
   .link-btn.pinkfy .badge { background: #4F2132; }
   .link-btn.pinkfy .link-icon { background: #4F2132; }
   .link-btn.pinkfy .link-icon img { width: 22px; height: auto; display: block; }
